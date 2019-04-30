@@ -9,3 +9,9 @@
 /* ----------------------------------------------------
 	You can put your custom css code here: 
 -------------------------------------------------------*/
+
+@media screen and (max-width: 600px) {
+	.htc-header .logo h1 {
+		font-size: 13pt !important;
+	}
+}

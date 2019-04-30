@@ -1,3 +1,8 @@
 <?php
+$myFunc = new AllFunction();
 
-$baseurl = "http://127.0.0.1/marketplace";
+$siteIdentity = $myFunc->siteIdentity();
+
+$baseurl = $siteIdentity['baseurl'];
+$siteName = $siteIdentity['sitename'];
+$contactMail = $siteIdentity['contactmail'];

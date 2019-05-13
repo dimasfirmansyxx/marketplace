@@ -37,7 +37,7 @@
       <li class="header">TRANSAKSI</li>
       <li class="navmenu" id="sellingListMenu" data-href="sellingList">
         <a href="sellingList">
-          <i class="fa fa-shopping-cart"></i> <span>List Penjualan</span>
+          <i class="fa fa-shopping-cart"></i> <span>Order Request</span>
         </a>
       </li>
       <li class="navmenu" id="spendListMenu" data-href="spendList">

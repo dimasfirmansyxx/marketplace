@@ -22,3 +22,4 @@
 <script src=" <?= $baseurl ?> /management/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="<?= $baseurl ?>/management/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script src="<?= $baseurl ?>/management/bower_components/ckeditor/ckeditor.js"></script>
+<script src="<?= $baseurl ?>/management/dist/js/sweet.js"></script>

@@ -15,6 +15,14 @@ class GlobalFunction{
 		return $rows;
 	}
 
+	public function getNewId($tblname)
+	{
+		global $conn;
+		$row = $this->getData("SELECT * FROM $tblname ORDER BY id DESC");
+		$id = $row['id'] + 1;
+		return $id;
+	}
+
 	public function exeQuery($query)
 	{
 		global $conn;
@@ -27,6 +35,7 @@ class GlobalFunction{
 		global $conn;
 		$query = mysqli_query($conn, "UPDATE $tblname SET dlt = true WHERE $key = '$value'");
 		return mysqli_affected_rows($conn);
+		// return $query;
 	}
 
 	public function checkAvailability($query)
@@ -45,7 +54,7 @@ class GlobalFunction{
 	{
 		global $conn;
 		$result = mysqli_query($conn, $query);
-		return mysqli_fetch_array($result);
+		return mysqli_fetch_assoc($result);
 	}
 
 	public function redirect($destination)
@@ -61,16 +70,29 @@ class GlobalFunction{
 	{
 		$nama = $_FILES[$paramName]['name'];
 		$tmpName = $_FILES[$paramName]['tmp_name'];
+		$ekstensi = strtolower(end(explode('.', $nama)));
+		$allow = ['jpg','jpeg','png','bmp','svg','gif','tiff'];
 
-		if ( $fileName == "random" ) {
-			$newName = uniqid() . '.' . strtolower(end(explode('.', $nama)));
-		} else {
-			$newName = $fileName;
+		if ( in_array($ekstensi, $allow) ) {
+			if ( $fileName == "random" ) {
+				$newName = uniqid() . '.' . $ekstensi;
+			} else {
+				$newName = $fileName;
+			}
+
+			move_uploaded_file($tmpName, $destination . $newName);
+
+			return $newName;
 		}
+	}
 
-		move_uploaded_file($tmpName, $destination . $newName);
-
-		return $newName;
+	public function filterWord($word)
+	{
+		global $conn;
+		// $word = htmlspecialchars($word);
+		$word = stripslashes($word);
+		$word = mysqli_real_escape_string($conn, $word);
+		return $word;
 	}
 
 	public function numRows($query)

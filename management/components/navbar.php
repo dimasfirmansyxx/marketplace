@@ -52,11 +52,11 @@
           <i class="fa fa-dropbox"></i> <span>Manajemen Produk</span>
         </a>
       </li>
-      <li class="navmenu" id="discountMenu" data-href="discount">
+      <!-- <li class="navmenu" id="discountMenu" data-href="discount">
         <a href="discount">
           <i class="fa fa-scissors"></i> <span>Manajemen Diskon</span>
         </a>
-      </li>
+      </li> -->
       <li class="navmenu" id="categoryProductMenu" data-href="categoryProduct">
         <a href="categoryProduct">
           <i class="fa fa-bookmark"></i> <span>Kategori Produk</span>
@@ -75,7 +75,7 @@
         </a>
       </li>
 
-      <li class="header">Pengaturan</li>
+      <li class="header">PENGATURAN</li>
       <li class="navmenu" id="siteSettingMenu" data-href="siteSetting">
         <a href="siteSetting">
           <i class="fa fa-cogs"></i> <span>Pengaturan Situs</span>

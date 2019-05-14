@@ -134,8 +134,14 @@ class AllFunction{
 		return $result;
 	}
 
-	public function getProduk() {
+	public function getProduk($limit = 0) {
 		global $myGlobal;
+
+		if ( $limit == 0 ) {
+			$result = $myGlobal->query("SELECT * FROM tblproduk WHERE dlt = false ORDER BY id DESC");
+		} else {
+			$result = $myGlobal->query("SELECT * FROM tblproduk WHERE dlt = false ORDER BY id DESC LIMIT $limit");
+		}
 		return $myGlobal->query("SELECT * FROM tblproduk WHERE dlt = false");
 	}
 

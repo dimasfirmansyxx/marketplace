@@ -1,13 +1,21 @@
 <?php 
 
-$url = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+$url = $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+
+$url = "http://" . $url;
 
 switch ( $url ) {
-	case " $baseurl/home ":
-		$siteTitle = "Home - $siteName";
+	case "$baseurl/home/page/products":
+		$siteTitle = "Semua Produk - $siteName";
+		break;
+
+
+	case "$baseurl/home":
+		$siteTitle = "Beranda - $siteName";
 		break;
 	
+
 	default:
-		$siteTitle = "Home - $siteName";
+		$siteTitle = "Beranda - $siteName";
 		break;
 }

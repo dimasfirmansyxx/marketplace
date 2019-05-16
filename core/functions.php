@@ -25,6 +25,17 @@ class AllFunction{
 		return $rows;
 	}
 
+	public function checkSession($session)
+	{
+		if ( isset($_SESSION["$session"]) ) {
+			$result = true;
+		} else {
+			$result = false;
+		}
+
+		return $result;
+	}
+
 	public function getKategori($length = 0) 
 	{
 		global $myGlobal;
@@ -325,4 +336,10 @@ include 'request.php';
 	1! = Data Exist
 	2! = Can't Insert Data
 	3! = Data not Exist
+
+	SESSION
+	adminSess = Admin Login
+	adminInfo = Admin Info
+	userSess  = User Login
+	userInfo  = User Info 
 */

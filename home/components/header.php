@@ -15,7 +15,7 @@
                 <div class="col-md-8 col-lg-8 col-sm-6 col-xs-6">
                     <nav class="mainmenu__nav hidden-xs hidden-sm">
                         <ul class="main__menu">
-                            <li class="drop"><a href="#">Beranda</a></li>
+                            <li class="drop"><a href="<?= $baseurl ?>/home/">Beranda</a></li>
                             <li class="drop"><a href="#">Tentang</a></li>
                             <li class="drop"><a href="#">Berita</a></li>
                             <li class="drop"><a href="#">Kontak</a></li>
@@ -25,7 +25,7 @@
                     <div class="mobile-menu clearfix visible-xs visible-sm">
                         <nav id="mobile_dropdown">
                             <ul>
-                                <li><a href="#">Beranda</a></li>
+                                <li><a href="<?= $baseurl ?>/home/">Beranda</a></li>
                                 <li><a href="#">Tentang</a></li>
                                 <li><a href="#">Berita</a></li>
                                 <li><a href="#">Kontak</a></li>
@@ -38,8 +38,13 @@
                 <div class="col-md-2 col-sm-4 col-xs-3">  
                     <ul class="menu-extra">
                         <li class="search search__open hidden-xs"><span class="ti-search"></span></li>
-                        <li><a href="login-register.html"><span class="ti-user"></span></a></li>
-                        <li class="cart__menu"><span class="ti-shopping-cart"></span></li>
+
+                        <?php if ( $myFunc->checkSession("userSess") ): ?>
+                            <li><a href="login-register.html"><span class="ti-user"></span></a></li>
+                            <li class="cart__menu"><span class="ti-shopping-cart"></span></li>
+                        <?php else: ?>
+                            <li><a href="<?= $baseurl ?>/page/session/login"><span class="ti-user"></span></a></li>
+                        <?php endif ?>
                     </ul>
                 </div>
             </div>

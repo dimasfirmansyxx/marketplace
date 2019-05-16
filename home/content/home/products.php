@@ -39,7 +39,7 @@
                                 <div class="row">
                                     <div class="col-md-12 text-center">
                                         <div class="htc__loadmore__btn">
-                                            <a href="<?= $baseurl ?>/home/page/products">produk lainnya</a>
+                                            <a href="<?= $baseurl ?>/home/page/product/all">produk lainnya</a>
                                         </div>
                                     </div>
                                 </div>

@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="<?= $baseurl ?>/home/style.css">
     <link rel="stylesheet" href="<?= $baseurl ?>/home/css/responsive.css">
     <link rel="stylesheet" href="<?= $baseurl ?>/home/css/custom.css">
+    <script src="<?= $baseurl ?>/home/js/jquery.3.3.1.min.js"></script>
     <script src="<?= $baseurl ?>/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 
@@ -33,8 +34,14 @@
         <?php if ( isset($_GET['page']) ) : ?>
             <?php
             
-                if ( $_GET['page'] == "products" ) {
-                    include 'content/allproducts/products.php';
+                if ( $_GET['page'] == "product" ) {
+                    if ( $_GET['param'] == "all" ) {
+                        include 'content/allproducts/products.php';
+                    }
+                } elseif ( $_GET['page'] == "session" ) {
+                    if ( $_GET['param'] == "login" ) {
+                        include 'content/session/login.php';
+                    }
                 }
             
             ?>
@@ -66,7 +73,7 @@
 
     </div>
 
-    
+
     <script src="<?= $baseurl ?>/home/js/vendor/jquery-1.12.0.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/bootstrap.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/plugins.js"></script>
@@ -74,7 +81,6 @@
     <script src="<?= $baseurl ?>/home/js/owl.carousel.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/waypoints.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/main.js"></script>
-
 </body>
 
 </html>

@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="<?= $baseurl ?>/home/style.css">
     <link rel="stylesheet" href="<?= $baseurl ?>/home/css/responsive.css">
     <link rel="stylesheet" href="<?= $baseurl ?>/home/css/custom.css">
-    <script src="<?= $baseurl ?>/home/js/jquery.3.3.1.min.js"></script>
     <script src="<?= $baseurl ?>/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 
@@ -74,6 +73,7 @@
     </div>
 
 
+    <script src="<?= $baseurl ?>/home/js/jquery.3.3.1.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/vendor/jquery-1.12.0.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/bootstrap.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/plugins.js"></script>

@@ -34,5 +34,7 @@ if ( isset($_GET['cmd']) ) {
 		echo json_encode($myFunc->editKategori($_POST));
 	} elseif ( $_GET['cmd'] == "changeIconKategori" ) {
 		echo json_encode($myFunc->changeIconKategori($_POST));
+	} elseif ( $_GET['cmd'] == "userRegistration" ) {
+		echo json_encode($myFunc->userRegistration($_POST));
 	}
 }

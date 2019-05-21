@@ -323,6 +323,39 @@ class AllFunction{
 		return $result;
 	}
 
+	public function userRegistration($data)
+	{
+		global $myGlobal;
+		$id = getNewId("tbluser");
+		$nama = $myGlobal->filterWord($data['name']);
+		$email = $myGlobal->filterWord($data['email']);
+		$username = $myGlobal->filterWord($data['username']);
+		$password = $myGlobal->filterWord($data['password']);
+		$password = password_hash($password, PASSWORD_DEFAULT);
+
+		$queryCheck = "SELECT * FROM tbluser WHERE username = '$username'";
+
+		if ( $myGlobal->checkAvailability($queryCheck) ) {
+			$result = "Username already exist";
+		} else {
+			$queryCheck = "SELECT * FROM tbluser WHERE email = '$email'";
+			if ( $myGlobal->checkAvailability($queryCheck) ) {
+				$result = "Email already Registered";
+			} else {
+				$queryInsert = "INSERT INTO tbluser VALUES ('$id','$nama','$email','$username','$password')";
+				$insert = $myGlobal->exeQuery($queryInsert);
+
+				if ( $insert > 0 ) {
+					$result = "0";
+				} else {
+					$result = "2";
+				}
+			}
+		}
+
+		return $result;
+	}
+
 }
 
 include 'siteinfo.php';

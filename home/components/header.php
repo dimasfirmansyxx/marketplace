@@ -43,7 +43,7 @@
                             <li><a href="login-register.html"><span class="ti-user"></span></a></li>
                             <li class="cart__menu"><span class="ti-shopping-cart"></span></li>
                         <?php else: ?>
-                            <li><a href="<?= $baseurl ?>/page/session/login"><span class="ti-user"></span></a></li>
+                            <li><a href="<?= $baseurl ?>/home/page/session/login"><span class="ti-user"></span></a></li>
                         <?php endif ?>
                     </ul>
                 </div>

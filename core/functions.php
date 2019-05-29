@@ -326,7 +326,7 @@ class AllFunction{
 	public function userRegistration($data)
 	{
 		global $myGlobal;
-		$id = getNewId("tbluser");
+		$id = $myGlobal->getNewId("tbluser");
 		$nama = $myGlobal->filterWord($data['name']);
 		$email = $myGlobal->filterWord($data['email']);
 		$username = $myGlobal->filterWord($data['username']);
@@ -342,7 +342,7 @@ class AllFunction{
 			if ( $myGlobal->checkAvailability($queryCheck) ) {
 				$result = "Email already Registered";
 			} else {
-				$queryInsert = "INSERT INTO tbluser VALUES ('$id','$nama','$email','$username','$password')";
+				$queryInsert = "INSERT INTO tbluser VALUES ('$id','$nama','$username','$password','$email')";
 				$insert = $myGlobal->exeQuery($queryInsert);
 
 				if ( $insert > 0 ) {
@@ -351,6 +351,29 @@ class AllFunction{
 					$result = "2";
 				}
 			}
+		}
+
+		return $result;
+	}
+
+	public function userLogin($data)
+	{
+		global $myGlobal;
+		$username = $myGlobal->filterWord($data['username']);
+		$password = $myGlobal->filterWord($data['password']);
+
+		$queryCheck = "SELECT * FROM tbluser WHERE username = '$username'";
+		if ( $myGlobal->checkAvailability($queryCheck) ) {
+			$data = $myGlobal->getData($queryCheck);
+			if ( password_verify($password,$data['password']) ) {
+				$myGlobal->setSession("userSess",true);
+				$myGlobal->setSession("userInfo",$data);
+				$result = "0";
+			} else {
+				$result = "Password didn't match";
+			}
+		} else {
+			$result = "Username didn't exist";
 		}
 
 		return $result;

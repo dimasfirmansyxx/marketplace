@@ -13,6 +13,10 @@ switch ( $url ) {
 		$siteTitle = "Login - $siteName";
 		break;
 
+	case "$baseurl/home/page/session/register":
+		$siteTitle = "Registrasi - $siteName";
+		break;
+
 	case "$baseurl/home":
 		$siteTitle = "Beranda - $siteName";
 		break;

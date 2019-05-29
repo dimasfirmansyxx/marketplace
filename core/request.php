@@ -36,5 +36,7 @@ if ( isset($_GET['cmd']) ) {
 		echo json_encode($myFunc->changeIconKategori($_POST));
 	} elseif ( $_GET['cmd'] == "userRegistration" ) {
 		echo json_encode($myFunc->userRegistration($_POST));
+	} elseif ( $_GET['cmd'] == "userLogin" ) {
+		echo json_encode($myFunc->userLogin($_POST));
 	}
 }

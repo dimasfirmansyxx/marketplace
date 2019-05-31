@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="<?= $baseurl ?>/home/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="<?= $baseurl ?>/home/css/aos.css">
     <link rel="stylesheet" href="<?= $baseurl ?>/home/css/style.css">
+    
     <script src="<?= $baseurl ?>/home/js/jquery-3.3.1.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/jquery-ui.js"></script>
     <script src="<?= $baseurl ?>/home/js/popper.min.js"></script>
@@ -25,8 +26,6 @@
     <script src="<?= $baseurl ?>/home/js/owl.carousel.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/jquery.magnific-popup.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/aos.js"></script>
-    <script src="<?= $baseurl ?>/home/js/main.js"></script>
-    
   </head>
   <body>
   
@@ -39,6 +38,8 @@
             if ( $_GET['page'] == "product" ) {
                 if ( $_GET['param'] == "all" ) {
                     include 'content/allproducts/products.php';
+                } else {
+                    include 'content/product/product.php';
                 }
             } elseif ( $_GET['page'] == "session" ) {
                 if ( $_GET['param'] == "login" ) {
@@ -57,5 +58,6 @@
   </div>
 
     
+    <script src="<?= $baseurl ?>/home/js/main.js"></script>
   </body>
 </html>

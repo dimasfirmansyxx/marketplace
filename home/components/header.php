@@ -57,6 +57,7 @@
           </ul>
         </li>
         <li><a href="<?= $baseurl ?>/home/">Beranda</a></li>
+        <li><a href="<?= $baseurl ?>/home/page/product/all">Produk</a></li>
         <li><a href="#">Tentang</a></li>
         <li><a href="#">Berita</a></li>
         <li><a href="#">Kontak</a></li>

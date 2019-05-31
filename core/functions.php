@@ -1,7 +1,6 @@
 <?php 
 
 session_start();
-
 include 'connection.php';
 include 'global.php';
 
@@ -350,6 +349,9 @@ class AllFunction{
 				} else {
 					$result = "2";
 				}
+
+				$queryInsert = "INSERT INTO tbluserdetail VALUES ('$id','$id','','default.png','','')";
+				$myGlobal->exeQuery($queryInsert);
 			}
 		}
 

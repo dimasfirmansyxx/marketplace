@@ -381,6 +381,30 @@ class AllFunction{
 		return $result;
 	}
 
+	public function addToWishlist($data)
+	{
+		global $myGlobal;
+		$id = $myGlobal->getNewId("tblwishlist");
+		$userid = $data['user_id'];
+		$produkid = $data['produk_id'];
+
+		$queryCheck = "SELECT * FROM tblwishlist WHERE user_id = '$userid' AND produk_id = '$produkid'";
+		if ( $myGlobal->checkAvailability($queryCheck) ) {
+			$result = "1";
+		} else {
+			$queryInsert = "INSERT INTO tblwishlist VALUES ('$id','$userid','$produkid')";
+			$insert = $myGlobal->exeQuery($queryInsert);
+
+			if ( $insert > 0 ) {
+				$result = "0";
+			} else {
+				$result = "2";
+			}
+		}
+
+		return $result;
+	}
+
 }
 
 include 'siteinfo.php';

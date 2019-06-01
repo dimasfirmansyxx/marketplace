@@ -49,3 +49,30 @@
 
   </div>
 </div>
+
+<script>
+  $(document).ready(function(){
+
+    var baseurl = "<?= $baseurl ?>";
+
+    $("#BtnAddToWishlist").on("click",function(e){
+      e.preventDefault();
+      $.ajax({
+        url : baseurl + "/core/functions.php?cmd=addToWishlist",
+        type : "post",
+        data : { user_id : "<?= $_SESSION['userInfo']['id'] ?>", produk_id : "<?= $get['id'] ?>" },
+        dataType : "json",
+        success : function(result) {
+          if ( result == "0" ) {
+            swal("Sukses!", "Berhasil Menambah Produk ke dalam Wishlist", "success");
+          } else if ( result == "1" ) {
+            swal("Gagal!", "Produk sudah tersedia di dalam Wishlist anda", "warning");
+          } else if ( result == "2" ) {
+            swal("Gagal!", "Terjadi Kesalahan pada Server", "error");
+          }
+        }
+      });
+    });
+
+  });
+</script>

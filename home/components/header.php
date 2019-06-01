@@ -20,10 +20,18 @@
           <div class="site-top-icons">
             <ul>
               <?php if ( $myFunc->checkSession("userSess") ): ?>
-                <li><a href="#"><span class="icon icon-person"></span></a></li>
-                <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
                 <li>
-                  <a href="cart.html" class="site-cart">
+                  <a href="#" title="Profile">
+                    <span class="icon icon-person"></span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" title="Wishlist">
+                    <span class="icon icon-heart-o"></span>
+                  </a>
+                </li>
+                <li>
+                  <a href="cart.html" class="site-cart" title="Keranjang Belanja">
                     <span class="icon icon-shopping_cart"></span>
                     <span class="count">2</span>
                   </a>

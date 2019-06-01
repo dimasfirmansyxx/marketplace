@@ -22,6 +22,7 @@
     <script src="<?= $baseurl ?>/home/js/jquery-3.3.1.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/jquery-ui.js"></script>
     <script src="<?= $baseurl ?>/home/js/popper.min.js"></script>
+    <script src="<?= $baseurl ?>/home/js/sweet.js"></script>
     <script src="<?= $baseurl ?>/home/js/bootstrap.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/owl.carousel.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/jquery.magnific-popup.min.js"></script>

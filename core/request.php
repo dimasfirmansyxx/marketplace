@@ -38,5 +38,7 @@ if ( isset($_GET['cmd']) ) {
 		echo json_encode($myFunc->userRegistration($_POST));
 	} elseif ( $_GET['cmd'] == "userLogin" ) {
 		echo json_encode($myFunc->userLogin($_POST));
+	} elseif ( $_GET['cmd'] == "addToWishlist" ) {
+		echo json_encode($myFunc->addToWishlist($_POST));
 	}
 }

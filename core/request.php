@@ -40,5 +40,9 @@ if ( isset($_GET['cmd']) ) {
 		echo json_encode($myFunc->userLogin($_POST));
 	} elseif ( $_GET['cmd'] == "addToWishlist" ) {
 		echo json_encode($myFunc->addToWishlist($_POST));
+	} elseif ( $_GET['cmd'] == "addToCart" ) {
+		echo json_encode($myFunc->addToCart($_POST));
+	} elseif ( $_GET['cmd'] == "getTotalItemOnCart" ) {
+		echo json_encode($myFunc->getTotalItemOnCart($_POST['id']));
 	}
 }

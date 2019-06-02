@@ -21,21 +21,27 @@
             <ul>
               <?php if ( $myFunc->checkSession("userSess") ): ?>
                 <li>
-                  <a href="#" title="Profile">
+                  <a href="<?= $baseurl ?>/home/page/profile/my" title="Profile">
                     <span class="icon icon-person"></span>
                   </a>
                 </li>
                 <li>
-                  <a href="#" title="Wishlist">
+                  <a href="<?= $baseurl ?>/home/page/profile/wishlist" title="Wishlist">
                     <span class="icon icon-heart-o"></span>
                   </a>
                 </li>
                 <li>
-                  <a href="cart.html" class="site-cart" title="Keranjang Belanja">
+                  <a href="<?= $baseurl ?>/home/page/profile/cart" class="site-cart" title="Keranjang Belanja">
                     <span class="icon icon-shopping_cart"></span>
-                    <span class="count">2</span>
+                    <span class="count total-cart-count">0</span>
                   </a>
                 </li> 
+                <li>
+                  <a href="<?= $baseurl ?>/home/page/profile/logout" title="Logout">
+                    <span class="icon icon-exit_to_app"></span>
+                  </a>
+                </li>
+                <?php include 'custom_script.php'; ?>
               <?php else : ?>
                 <li><a href="<?= $baseurl ?>/home/page/session/login"><span class="icon icon-person"></span></a></li>
               <?php endif ?>

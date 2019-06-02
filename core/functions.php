@@ -1,6 +1,7 @@
 <?php 
 
 session_start();
+date_default_timezone_set('Asia/Jakarta');
 include 'connection.php';
 include 'global.php';
 
@@ -404,6 +405,88 @@ class AllFunction{
 
 		return $result;
 	}
+
+	public function getTransactionId()
+	{
+		return date("YmdHis");
+	}
+
+	public function addToCart($data)
+	{
+		global $myGlobal;
+		$user = $data['user_id'];
+		$produk = $data['produk_id'];
+		$qty = $data['qty'];
+		$date = date("Y-m-d");
+		$time = date("H:i:s");
+
+
+		$getProductStok = $this->getStokProduk($produk);
+
+		if ( $getProductStok < $qty ) {
+			$result = "3";
+		} elseif ( !is_numeric($qty) ) {
+			$result = "2";
+		} else {
+			$queryCheck = "SELECT * FROM tblcart WHERE user_id = '$user'";
+			if ( $myGlobal->checkAvailability($queryCheck) ) {
+				$getData = $myGlobal->getData($queryCheck);
+				$idTransaksi = $getData['id_transaksi'];
+
+				$queryCheck = "SELECT * FROM tblcartdetail WHERE id_transaksi = '$idTransaksi' AND produk_id = '$produk'";
+				if ( $myGlobal->checkAvailability($queryCheck) ) {
+					$getData = $myGlobal->getData($queryCheck);
+					$idDetail = $getData['id'];
+					$oldQty = $getData['qty'];
+
+					$newQty = $oldQty + $qty;
+					$update = $myGlobal->exeQuery("UPDATE tblcartdetail SET qty = '$newQty' WHERE id = '$idDetail'");
+					if ( $update > 0 ) {
+						$result = "0";
+					} else {
+						$result = "2";
+					}
+				} else {
+					$idDetail = $myGlobal->getNewId("tblcartdetail");
+					$insert = $myGlobal->exeQuery("INSERT INTO tblcartdetail VALUES ('$idDetail','$idTransaksi','$produk','$qty')");
+					if ( $insert > 0 ) {
+						$result = "0";
+					} else {
+						$result = "2";
+					}
+				}
+			} else {
+				$idTransaksi = $this->getTransactionId();
+				$idDetail = $myGlobal->getNewId("tblcartdetail");
+				$insert = $myGlobal->exeQuery("INSERT INTO tblcart VALUES ('$idTransaksi','$user','$date','$time')");
+				if ( $insert > 0 ) {
+					$result = "0";
+				} else {
+					$result = "2";
+				}
+
+				$myGlobal->exeQuery("INSERT INTO tblcartdetail VALUES ('$idDetail','$idTransaksi','$produk','$qty')");
+			}
+		}
+
+		return $result;
+
+	}
+
+	public function getTotalItemOnCart($user)
+	{
+		global $myGlobal;
+		$queryCheck = "SELECT * FROM tblcart WHERE user_id = '$user'";
+		if ( $myGlobal->checkAvailability($queryCheck) ) {
+			$get = $myGlobal->getData($queryCheck);
+			$idTransaksi = $get['id_transaksi'];
+			$result = $myGlobal->numRows("SELECT * FROM tblcartdetail WHERE id_transaksi = '$idTransaksi'");
+		} else {
+			$result = "0";
+		}
+
+		return $result;
+	} 
 
 }
 

@@ -27,6 +27,7 @@
     <script src="<?= $baseurl ?>/home/js/owl.carousel.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/jquery.magnific-popup.min.js"></script>
     <script src="<?= $baseurl ?>/home/js/aos.js"></script>
+    <script src="<?= $baseurl ?>/home/js/custom.js"></script>
   </head>
   <body>
   

@@ -1,6 +1,11 @@
 <?php 
     include '../core/functions.php';
     $myFunc = new AllFunction();
+    if ( $myFunc->checkSession("userSess") ) {
+        if ( !($siteTitle == "Pengisian Detail Profile - $siteName" || $siteTitle == "Verifikasi Email - $siteName") ) {
+            $myFunc->checkUserDetail($_SESSION["userInfo"]['id']);
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +53,14 @@
                     include 'content/session/login.php';
                 } elseif ( $_GET['param'] == "register" ) {
                     include 'content/session/registrasi.php';
+                } elseif ( $_GET['param'] == "detail" ) {
+                    include 'content/session/detail.php';
+                }
+            } elseif ( $_GET['page'] == "profile" ) {
+                if ( $_GET['param'] == "cart" ) {
+                    include 'content/profile/cart/cart.php';
+                } elseif ( $_GET['param'] == "logout" ) {
+                    $myFunc->logout("userSess");
                 }
             }
         } else {

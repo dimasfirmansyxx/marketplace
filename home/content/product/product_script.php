@@ -43,7 +43,6 @@
 
     $("#BtnAddToCart").on("click",function(e){
       e.preventDefault();
-      getTotalItemOnCart();
       var qty = $("#TxtQty").val();
       $.ajax({
         url : baseurl + "/core/functions.php?cmd=addToCart",
@@ -51,6 +50,7 @@
         data : { user_id : user, produk_id : produk, qty : qty },
         dataType : "json",
         success : function(result){
+          getTotalItemOnCart();
           if ( result == "0" ) {
             swal("Sukses!", "Berhasil Menambah Produk ke dalam Keranjang Belanja", "success");
           } else if ( result == "3" ) {

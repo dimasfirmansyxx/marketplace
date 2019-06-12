@@ -4,8 +4,10 @@ session_start();
 date_default_timezone_set('Asia/Jakarta');
 include 'connection.php';
 include 'global.php';
+include 'API/rajaongkir/app.php';
 
 $myGlobal = new GlobalFunction();
+$ongkirApp = new RajaOngkir("b63970fa62a2cc22f898e3f73170d166",true);
 
 class AllFunction{
 
@@ -31,6 +33,32 @@ class AllFunction{
 			$result = true;
 		} else {
 			$result = false;
+		}
+
+		return $result;
+	}
+
+	public function logout($session)
+	{
+		global $baseurl;
+		global $myGlobal;
+		if ( $session == "adminSess" ) {
+			$redirect = "/management";
+		} else {
+			$redirect = "/home";
+		}
+
+		session_destroy();
+		$myGlobal->redirect($baseurl . $redirect);
+	}
+
+	public function getRegion($type, $value = 0)
+	{
+		global $myGlobal;
+		if ( $type == "province" ) {
+			$result = $myGlobal->query("SELECT * FROM tblprovince ORDER BY province ASC");
+		} else {
+			$result = $myGlobal->query("SELECT * FROM tblcity WHERE id_province = '$value' ORDER BY city ASC");
 		}
 
 		return $result;
@@ -342,7 +370,7 @@ class AllFunction{
 			if ( $myGlobal->checkAvailability($queryCheck) ) {
 				$result = "Email already Registered";
 			} else {
-				$queryInsert = "INSERT INTO tbluser VALUES ('$id','$nama','$username','$password','$email')";
+				$queryInsert = "INSERT INTO tbluser VALUES ('$id','$nama','$username','$password','$email','bio')";
 				$insert = $myGlobal->exeQuery($queryInsert);
 
 				if ( $insert > 0 ) {
@@ -350,9 +378,41 @@ class AllFunction{
 				} else {
 					$result = "2";
 				}
+			}
+		}
 
-				$queryInsert = "INSERT INTO tbluserdetail VALUES ('$id','$id','','default.png','','')";
-				$myGlobal->exeQuery($queryInsert);
+		return $result;
+	}
+
+	public function setUserDetail($data)
+	{
+		global $myGlobal;
+		$newId = $myGlobal->getNewId("tbluserdetail");
+		$userId = $data['id'];
+		$provinsi = $myGlobal->filterWord($data['provinsi']);
+		$kota = $myGlobal->filterWord($data['kota']);
+		$alamat = $myGlobal->filterWord($data['alamat']);
+		$kodepos = $myGlobal->filterWord($data['kodepos']);
+		$nohp = $myGlobal->filterWord($data['nohp']);
+		$foto = "default.png";
+		$tgllahir = $myGlobal->filterWord($data['tgllahir']);
+		$jk = $myGlobal->filterWord($data['jk']);
+
+		if ( !(is_numeric($kodepos) || is_numeric($nohp)) ) {
+			$result = "2";
+		} else {
+			$queryCheck = "SELECT * FROM tbluserdetail WHERE user_id = '$userId'";
+			if ( $myGlobal->checkAvailability($queryCheck) ) {
+				$result = "1";
+			} else {
+				$queryInsert = "INSERT INTO tbluserdetail VALUES ('$newId','$userId','$provinsi','$kota','$alamat',
+																	'$kodepos','$nohp','$foto','$tgllahir','$jk')";
+				$insert = $myGlobal->exeQuery($queryInsert);
+				if ( $insert > 0 ) {
+					$result = "0";
+				} else {
+					$result = "2";
+				}
 			}
 		}
 
@@ -380,6 +440,33 @@ class AllFunction{
 		}
 
 		return $result;
+	}
+
+	public function getUserDetail($id)
+	{
+		global $myGlobal;
+		$query = "SELECT * FROM tbluserdetail WHERE user_id = $id";
+		if ( $myGlobal->checkAvailability($query) ) {
+			$result = $myGlobal->getData($query);
+		} else {
+			$result = "3";
+		}
+		return $result;
+	}
+
+	public function checkUserDetail($id)
+	{
+		global $myGlobal;
+		global $baseurl;
+		if ( $this->getUserDetail($id) == 3 ) {
+			$myGlobal->redirect($baseurl . "/home/page/session/detail");
+		} else {
+			if ( $_SESSION["userInfo"]['verify'] == "email" ) {
+				$myGlobal->redirect($baseurl . "/home/page/session/verify");
+			} else {
+				$myGlobal->setSession("userDetail",$this->getUserDetail($id));
+			}
+		}
 	}
 
 	public function addToWishlist($data)
@@ -473,6 +560,49 @@ class AllFunction{
 
 	}
 
+	public function getCartItem($user)
+	{
+		global $myGlobal;
+		$totalitem = $this->getTotalItemOnCart($user);
+		if ( $totalitem > 0 ) {
+			$get = $myGlobal->getData("SELECT * FROM tblcart WHERE user_id = '$user'");
+			$idTransaksi = $get['id_transaksi'];
+			$result = $myGlobal->query("SELECT * FROM tblcartdetail WHERE id_transaksi = '$idTransaksi'");
+		} else {
+			$result = "0";
+		}
+
+		return $result;
+	}
+
+	public function setNewQty($data)
+	{
+		global $myGlobal;
+		$id = $data['id'];
+		$qty = $data['qty'];
+		$produk = $data['produk'];
+
+		if ( !is_numeric($qty) ) {
+			$result = "2";
+		} else {
+			$getStock = $this->getStokProduk($produk);
+
+			if ( $getStock < $qty ) {
+				$result = "3";
+			} else {
+				$query = "UPDATE tblcartdetail SET qty = '$qty' WHERE id = '$id'";
+				$update = $myGlobal->exeQuery($query);
+				if ( $update > 0 ) {
+					$result = "0";
+				} else {
+					$result = "2";
+				}
+			}
+		}
+
+		return $result;
+	}
+
 	public function getTotalItemOnCart($user)
 	{
 		global $myGlobal;
@@ -488,6 +618,46 @@ class AllFunction{
 		return $result;
 	} 
 
+	public function getTotalPriceOnCart($user)
+	{
+		global $myGlobal;
+		$queryCheck = "SELECT * FROM tblcart WHERE user_id = '$user'";
+		$totalPrice = 0;
+		if ( $myGlobal->checkAvailability($queryCheck) ) {
+			$get = $myGlobal->getData($queryCheck);
+			$idTransaksi = $get['id_transaksi'];
+			$getDetail = $myGlobal->query("SELECT * FROM tblcartdetail WHERE id_transaksi = '$idTransaksi'");
+			foreach ($getDetail as $row) {
+				$produk = $this->getProdukInfo($row['produk_id']);
+				$price = $produk['harga'] * $row['qty'];
+				$totalPrice = $totalPrice + $price;
+				$result = $totalPrice;
+			}
+		} else {
+			$result = "0";
+		}
+
+		return $result;
+	}
+
+	public function deleteCart($id, $user)
+	{
+		global $myGlobal;
+		$queryDelete = "DELETE FROM tblcartdetail WHERE id = $id";
+		$delete = $myGlobal->exeQuery($queryDelete);
+
+		if ( $delete > 0 ) {
+			$result = "0";
+			if ( $this->getTotalItemOnCart($user) == "0" ) {
+				$myGlobal->exeQuery("DELETE FROM tblcart WHERE user_id = '$user'");
+			}
+		} else {
+			$result = "2";
+		}
+
+		return $result;
+	}
+
 }
 
 include 'siteinfo.php';
@@ -501,10 +671,12 @@ include 'request.php';
 	1! = Data Exist
 	2! = Can't Insert Data
 	3! = Data not Exist
+	4! = Need Login
 
 	SESSION
-	adminSess = Admin Login
-	adminInfo = Admin Info
-	userSess  = User Login
-	userInfo  = User Info 
+	adminSess  = Admin Login
+	adminInfo  = Admin Info
+	userSess   = User Login
+	userInfo   = User Info 
+	userDetail = User Detail
 */

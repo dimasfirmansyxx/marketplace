@@ -32,6 +32,18 @@ if ( $siteTitle == "untitled" ) {
 			$siteTitle = "Registrasi - $siteName";
 			break;
 
+		case "$baseurl/home/page/session/detail":
+			$siteTitle = "Pengisian Detail Profile - $siteName";
+			break;
+
+		case "$baseurl/home/page/session/verify":
+			$siteTitle = "Verifikasi Email - $siteName";
+			break;
+
+		case "$baseurl/home/page/profile/cart":
+			$siteTitle = "Keranjang Belanja - $siteName";
+			break;
+
 		case "$baseurl/home":
 			$siteTitle = "Beranda - $siteName";
 			break;

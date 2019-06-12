@@ -44,5 +44,13 @@ if ( isset($_GET['cmd']) ) {
 		echo json_encode($myFunc->addToCart($_POST));
 	} elseif ( $_GET['cmd'] == "getTotalItemOnCart" ) {
 		echo json_encode($myFunc->getTotalItemOnCart($_POST['id']));
+	} elseif ( $_GET['cmd'] == "setNewQty" ) {
+		echo json_encode($myFunc->setNewQty($_POST));
+	} elseif ( $_GET['cmd'] == "deleteCart" ) {
+		echo json_encode($myFunc->deleteCart($_POST['id'],$_POST['user']));
+	} elseif ( $_GET['cmd'] == "getRegion" ) {
+		echo json_encode($myFunc->getRegion($_POST['type'],$_POST['value']));
+	} elseif ( $_GET['cmd'] == "setUserDetail" ) {
+		echo json_encode($myFunc->setUserDetail($_POST));
 	}
 }

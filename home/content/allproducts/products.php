@@ -39,7 +39,7 @@
                   <a href="<?= $baseurl ?>/home/page/product/<?= $row['id'] ?>"><img src="<?= $baseurl ?>/images/produk/<?= $row['gambar'] ?>" alt="<?= ucwords($row['nama']) ?>" class="img-fluid"></a>
                 </figure>
                 <div class="block-4-text p-4">
-                  <h3><a href="shop-single.html"><?= ucwords($row['nama']) ?></a></h3>
+                  <h3><a href="<?= $baseurl ?>/home/page/product/<?= $row['id'] ?>"><?= ucwords($row['nama']) ?></a></h3>
                   <p class="text-primary font-weight-bold">Rp.<?= number_format($row['harga']) ?>,-</p>
                 </div>
               </div>

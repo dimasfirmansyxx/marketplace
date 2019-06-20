@@ -23,7 +23,21 @@
 	        }
 	      });
 	    }
+	    function getTotalShopping(){
+	    	$.ajax({
+	    		url : baseurl + "/core/functions.php?cmd=getTotalPriceOnCart",
+	    		type : "post",
+	    		data : { user : user },
+	    		dataType : "json",
+	    		success : function(result){
+	    			$("#LblTotalBelanja").html(result);
+	    			var ppn = result * 10 / 100;
+	    			$("#LblSubtotal").html(result + ppn);
+	    		}
+	    	});
+	    }
 
+	    getTotalShopping();
 		loadContent();
 
 		$("#TableData-Cart").on("change",".TxtQty",function(){

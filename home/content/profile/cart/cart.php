@@ -75,7 +75,7 @@
 
             <div class="row">
               <div class="col-md-12">
-                <a href="#" class="btn btn-primary btn-lg py-3 btn-block">Checkout</a>
+                <a href="<?= $baseurl ?>/home/page/profile/checkout" class="btn btn-primary btn-lg py-3 btn-block">Checkout</a>
               </div>
             </div>
           </div>

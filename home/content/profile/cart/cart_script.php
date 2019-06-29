@@ -56,6 +56,7 @@
 						swal("Gagal!", "Terjadi Kesalahan pada Server", "error");
 					}
 					loadContent();
+					getTotalShopping();
 				}
 			});
 		});
@@ -74,6 +75,7 @@
 					}
 					loadContent();
 					getTotalItemOnCart();
+					getTotalShopping();
 				}
 			});
 		});

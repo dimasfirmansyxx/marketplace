@@ -192,6 +192,7 @@ class AllFunction{
 		$gambar = $myGlobal->uploadFile("../images/produk/","gambar");
 		$harga = $myGlobal->filterWord($data['harga']);
 		$kategori = $data['kategori'];
+		$berat = $myGlobal->filterWord($data['berat']);
 		$desc_singkat = $myGlobal->filterWord($data['descsingkat']);
 		$deskripsi = $myGlobal->filterWord($data['deskripsi']);
 
@@ -201,7 +202,7 @@ class AllFunction{
 		if ( $myGlobal->checkAvailability($queryCheck) ) {
 			$result = "1";
 		} else {
-			$queryInsert = "INSERT INTO tblproduk VALUES ('$getID','$kategori','$nama','$desc_singkat','$deskripsi','$harga','$gambar',false)";
+			$queryInsert = "INSERT INTO tblproduk VALUES ('$getID','$kategori','$nama','$desc_singkat','$deskripsi','$harga','$gambar','$berat',false)";
 			$insert = $myGlobal->exeQuery($queryInsert);
 
 			if ( $insert > 0 ) {
@@ -250,6 +251,7 @@ class AllFunction{
 		$nama = $myGlobal->filterWord($data['nama']);
 		$harga = $myGlobal->filterWord($data['harga']);
 		$kategori = $data['kategori'];
+		$berat = $myGlobal->filterWord($data['berat']);
 		$desc_singkat = $myGlobal->filterWord($data['descsingkat']);
 		$deskripsi = $myGlobal->filterWord($data['deskripsi']);
 
@@ -275,7 +277,8 @@ class AllFunction{
 							nama = '$nama', 
 							deskripsi_singkat = '$desc_singkat',
 							deskripsi = '$deskripsi',
-							harga = '$harga'
+							harga = '$harga',
+							berat = '$berat'
 						  WHERE id = $id";
 			$insert = $myGlobal->exeQuery($queryInsert);
 			if ( $insert > 0 ) {

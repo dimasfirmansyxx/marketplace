@@ -65,14 +65,24 @@
               </div>
             </div>
           </div>
-          <div class="form-group">
-            <label>Kategori</label>
-            <select name="kategori" class="form-control" id="TxtAddFormKategori">
-              <option value="0">--- Pilih Kategori ---</option>
-              <?php foreach ($getCategory as $row): ?>
-                <option value="<?= $row['id'] ?>"><?= ucwords($row['kategori']) ?></option>
-              <?php endforeach ?>
-            </select>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>Kategori</label>
+                <select name="kategori" class="form-control" id="TxtAddFormKategori">
+                  <option value="0">--- Pilih Kategori ---</option>
+                  <?php foreach ($getCategory as $row): ?>
+                    <option value="<?= $row['id'] ?>"><?= ucwords($row['kategori']) ?></option>
+                  <?php endforeach ?>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>Berat (gram)</label>
+                <input type="number" name="berat" class="form-control" id="TxtAddFormBerat" required>
+              </div>
+            </div> 
           </div>
           <div class="form-group">
             <label>Deskripsi Singkat</label>
@@ -110,14 +120,24 @@
             <label>Harga</label>
             <input type="number" name="harga" required class="form-control" id="TxtEditFormHarga">
           </div>
-          <div class="form-group">
-            <label>Kategori</label>
-            <select name="kategori" class="form-control" id="TxtEditFormKategori">
-              <option value="0">--- Pilih Kategori ---</option>
-              <?php foreach ($getCategory as $row): ?>
-                <option value="<?= $row['id'] ?>"><?= ucwords($row['kategori']) ?></option>
-              <?php endforeach ?>
-            </select>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>Kategori</label>
+                <select name="kategori" class="form-control" id="TxtEditFormKategori">
+                  <option value="0">--- Pilih Kategori ---</option>
+                  <?php foreach ($getCategory as $row): ?>
+                    <option value="<?= $row['id'] ?>"><?= ucwords($row['kategori']) ?></option>
+                  <?php endforeach ?>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label>Berat (gram)</label>
+                <input type="number" name="berat" class="form-control" id="TxtEditFormBerat" required>
+              </div>
+            </div>
           </div>
           <div class="form-group">
             <label>Deskripsi Singkat</label>

@@ -13,6 +13,7 @@
 			$("#TxtAddFormNama").val("");
 			$("#TxtAddFormGambar").val("");
 			$("#TxtAddFormHarga").val("");
+			$("#TxtAddFormBerat").val("");
 			$("#TxtAddFormKategori").val("0");
 			$("#TxtAddFormDeskripsiSingkat").val("");
 			CKEDITOR.instances.TxtAddFormDeskripsi.setData("");
@@ -20,6 +21,7 @@
 		function clearFormEdit() {
 			$("#TxtEditFormNama").val("wait ...");
 			$("#TxtEditFormHarga").val("0");
+			$("#TxtEditFormBerat").val("0");
 			$("#TxtEditFormKategori").val("0");
 			$("#TxtEditFormDeskripsiSingkat").val("wait ...");
 			CKEDITOR.instances.TxtEditFormDeskripsi.setData("wait ...");
@@ -27,6 +29,7 @@
 			$("#TxtEditFormNama").attr("disabled","disabled");
 			$("#TxtEditFormGambar").attr("disabled","disabled");
 			$("#TxtEditFormHarga").attr("disabled","disabled");
+			$("#TxtEditFormBerat").attr("disabled","disabled");
 			$("#TxtEditFormKategori").attr("disabled","disabled");
 			$("#TxtEditFormDeskripsiSingkat").attr("disabled","disabled");
 			CKEDITOR.instances.TxtEditFormDeskripsi.setReadOnly(true);
@@ -35,6 +38,7 @@
 			$("#TxtEditFormNama").removeAttr("disabled");
 			$("#TxtEditFormGambar").removeAttr("disabled");
 			$("#TxtEditFormHarga").removeAttr("disabled");
+			$("#TxtEditFormBerat").removeAttr("disabled");
 			$("#TxtEditFormKategori").removeAttr("disabled");
 			$("#TxtEditFormDeskripsiSingkat").removeAttr("disabled");
 			CKEDITOR.instances.TxtEditFormDeskripsi.setReadOnly(false);
@@ -128,6 +132,7 @@
 				success : function(result) {
 					$("#TxtEditFormNama").val(result.nama);
 					$("#TxtEditFormHarga").val(result.harga);
+					$("#TxtEditFormBerat").val(result.berat);
 					$("#TxtEditFormKategori").val(result.kategori_id);
 					$("#TxtEditFormDeskripsiSingkat").val(result.deskripsi_singkat);
 					CKEDITOR.instances.TxtEditFormDeskripsi.setData(result.deskripsi);

@@ -44,6 +44,10 @@ if ( $siteTitle == "untitled" ) {
 			$siteTitle = "Keranjang Belanja - $siteName";
 			break;
 
+		case "$baseurl/home/page/profile/checkout":
+			$siteTitle = "Checkout - $siteName";
+			break;
+
 		case "$baseurl/home":
 			$siteTitle = "Beranda - $siteName";
 			break;

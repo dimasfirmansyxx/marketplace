@@ -67,17 +67,61 @@
                 <span class="text-black">Total Belanja + PPN (10%)</span>
               </div>
               <div class="col-md-5 text-right">
-                <strong class="text-black">Rp.<span id="LblTotalBelanja">0</span>,-</strong>
+                <?php 
+                  $total = $myFunc->getTotalPriceOnCart($_SESSION["userInfo"]['id']); 
+                  $total = ( $total * 10 / 100 ) + $total;
+                ?>
+                <strong class="text-black">Rp.<span id="LblTotalBelanja"><?= number_format($total) ?></span>,-</strong>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-7">
+                <span class="text-black">Berat Barang (gram)</span>
+              </div>
+              <div class="col-md-5 text-right">
+                <?php 
+                  $berat = $myFunc->getItemWeight($_SESSION["userInfo"]['id']);
+                ?>
+                <strong class="text-black" id="LblBeratBarang"><?= $berat ?></strong>
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-md-12">
-                <select class="form-control">
-                  <option>-- PILIH EKSPEDISI --</option>
-                  <option>JNE</option>
-                  <option>TIKI</option>
-                  <option>POS INDONESIA</option>
+                <select class="form-control" id="CmbEkspedisi">
+                  <option value="0">-- PILIH EKSPEDISI --</option>
+                  <option value="jne reg">JNE REG</option>
+                  <option value="jne oke">JNE OKE</option>
+                  <option value="tiki">TIKI</option>
+                  <option value="pos">POS INDONESIA</option>
                 </select>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-7">
+                <span class="text-black">Tujuan Pengiriman <a href="#">change</a></span>
+              </div>
+              <div class="col-md-5 text-right">
+                <?php 
+                  $idkota = $_SESSION["userDetail"]['kota'];
+                  $getkota = $myFunc->getRegionInfo("kota",$idkota)['city']
+                ?>
+                <strong class="text-black" id="LblTujuanPengiriman" data-id="<?= $idkota ?>"><?= $getkota ?></strong>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-7">
+                <span class="text-black">Ongkos Kirim</span>
+              </div>
+              <div class="col-md-5 text-right">
+                <strong class="text-black">Rp.<span id="LblOngkosKirim">0</span>,-</strong>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-7">
+                <span class="text-black">GRAND TOTAL</span>
+              </div>
+              <div class="col-md-5 text-right">
+                <strong class="text-black">Rp.<span id="LblGrandTotal">0</span>,-</strong>
               </div>
             </div>
 
@@ -93,5 +137,8 @@
 
   </div>
 </div>
+
+
+<p class="col-md-12" id="MLMLMLM"></p>
 
 <?php include 'checkout_script.php'; ?>

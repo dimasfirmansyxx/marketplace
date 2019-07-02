@@ -4,37 +4,33 @@
 		var baseurl = "<?= $baseurl ?>";
 		var	user = "<?= $_SESSION["userInfo"]['id'] ?>"
 
-		function getTotalItemOnCart(){
-	      $.ajax({
-	        url : baseurl + "/core/functions.php?cmd=getTotalItemOnCart",
-	        type : "post",
-	        data : { id : user },
-	        dataType : "json",
-	        success : function(result){
-	          if ( result == "0" ) {
-	            $(".total-cart-count").css("display","none");
-	          } else {
-	            $(".total-cart-count").css("display","block");
-	            $(".total-cart-count").html(result);
-	          }
-	        }
-	      });
-	    }
+	    $("#CmbEkspedisi").on("change",function(){
+	    	var expedition = $(this).val();
+	    	var destination = "<?= $idkota ?>";
+	    	var weight = "<?= $berat ?>";
+	    	var package = "0";
 
-	    function getTotalShopping(){
-	    	$.ajax({
-	    		url : baseurl + "/core/functions.php?cmd=getTotalPriceOnCart",
-	    		type : "post",
-	    		data : { user : user },
-	    		dataType : "json",
-	    		success : function(result){
-	    			$("#LblTotalBelanja").html(result);
-	    			var ppn = result * 10 / 100;
-	    			$("#LblSubtotal").html(result + ppn);
-	    		}
-	    	});
-	    }
+	    	if ( expedition == "jne reg" || expedition == "jne oke" ) {
+	    		package = expedition;
+	    		expedition = "jne";
+	    	}
 
+	    	if ( expedition == 0 ) {
+	    		swal("Pilih Ekspedisi","Harus memilih salah satu ekspedisi yang tersedia","warning");
+	    	} else {
+	    		$.ajax({
+	    			url : baseurl + "/core/functions.php?cmd=getOngkir",
+	    			data : { destination : destination , expedition : expedition , weight : weight, package : package },
+	    			type : "post",
+	    			dataType : "json",
+	    			success : function(result) {
+	    				$("#LblOngkosKirim").html(result);
+	    				var grandtotal = parseInt(result) + parseInt(<?= $total ?>);
+	    				$("#LblGrandTotal").html(grandtotal);
+	    			}
+	    		});
+	    	}
+	    });
 
 
 	});

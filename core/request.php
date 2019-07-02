@@ -54,5 +54,7 @@ if ( isset($_GET['cmd']) ) {
 		echo json_encode($myFunc->setUserDetail($_POST));
 	} elseif ( $_GET['cmd'] == "getTotalPriceOnCart" ) {
 		echo json_encode($myFunc->getTotalPriceOnCart($_POST['user']));
+	} elseif ( $_GET['cmd'] == "getOngkir" ) {
+		echo json_encode($myFunc->getOngkir($_POST['destination'],$_POST['expedition'],$_POST['weight'],$_POST['package']));
 	}
 }

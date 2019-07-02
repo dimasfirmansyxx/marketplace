@@ -64,6 +64,18 @@ class AllFunction{
 		return $result;
 	}
 
+	public function getRegionInfo($type, $value)
+	{
+		global $myGlobal;
+		if ( $type == "province" ) {
+			$result = $myGlobal->getData("SELECT * FROM tblprovince WHERE id = '$value'");
+		} else {
+			$result = $myGlobal->getData("SELECT * FROM tblcity WHERE id = '$value'");
+		}
+
+		return $result;
+	}
+
 	public function getKategori($length = 0) 
 	{
 		global $myGlobal;
@@ -643,6 +655,28 @@ class AllFunction{
 		return $result;
 	}
 
+	public function getItemWeight($user)
+	{
+		global $myGlobal;
+		$get = $myGlobal->getData("SELECT * FROM tblcart WHERE user_id = '$user'");
+		$idTransaksi = $get['id_transaksi'];
+		$getDetail = $myGlobal->query("SELECT * FROM tblcartdetail WHERE id_transaksi = '$idTransaksi'");
+		$totalberat = 0;
+		foreach ($getDetail as $row) {
+			$produk = $this->getProdukInfo($row['produk_id']);
+			$totalberat = $totalberat + $produk['berat'];
+			if ( $row['qty'] > 1 ) {
+				$i = 1;
+				while ($i < $row['qty']) {
+					$totalberat = $totalberat + $produk['berat'];
+					$i++;
+				}
+			}
+		}
+
+		return $totalberat;
+	}
+
 	public function deleteCart($id, $user)
 	{
 		global $myGlobal;
@@ -656,6 +690,24 @@ class AllFunction{
 			}
 		} else {
 			$result = "2";
+		}
+
+		return $result;
+	}
+
+	public function getOngkir($destination, $expedition, $weight, $package)
+	{
+		global $ongkirApp;
+		$getData = $ongkirApp->getCost("48","$destination","$weight","$expedition");
+		$decode = json_decode($getData,true);
+		if ( $expedition == "jne" ) {
+			if ( $package == "jne reg" ) {
+				$result = $decode['rajaongkir']['results'][0]['costs']['1']['cost'][0]['value'];
+			} else {
+				$result = $decode['rajaongkir']['results'][0]['costs']['0']['cost'][0]['value'];
+			}
+		} else {
+			$result = $decode['rajaongkir']['results'][0]['costs']['0']['cost'][0]['value'];
 		}
 
 		return $result;

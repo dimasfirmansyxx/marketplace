@@ -473,7 +473,7 @@ class AllFunction{
 	{
 		global $myGlobal;
 		global $baseurl;
-		if ( $this->getUserDetail($id) == 3 ) {
+		if ( $this->getUserDetail($id) == "3" ) {
 			$myGlobal->redirect($baseurl . "/home/page/session/detail");
 		} else {
 			if ( $_SESSION["userInfo"]['verify'] == "email" ) {
@@ -511,6 +511,19 @@ class AllFunction{
 	public function getTransactionId()
 	{
 		return date("YmdHis");
+	}
+
+	public function getTransactionInfo($user)
+	{
+		global $myGlobal;
+		$queryCheck = "SELECT * FROM tblcart WHERE user_id = '$user'";
+		if ( $myGlobal->checkAvailability($queryCheck) ) {
+			$result = $myGlobal->getData($queryCheck);
+		} else {
+			$result = "3";
+		}
+
+		return $result;
 	}
 
 	public function addToCart($data)
@@ -711,6 +724,36 @@ class AllFunction{
 		}
 
 		return $result;
+	}
+
+
+
+	public function makeOrder($expedition, $user, $package)
+	{
+		global $myGlobal;
+		$id_transaksi = getTransactionInfo($user);
+		$date = date("Y-m-d");
+		$time = date("H:i:s");
+		$status = "pending";
+
+		$myGlobal->exeQuery("INSERT INTO tblorder VALUES ('$id_transaksi','$user','$date','$time','$status')");
+
+		$userDetail = $this->getUserDetail($user);
+		$weight = $this->getItemWeight($user);
+		$noresi = "0";
+		$alamat = $userDetail['alamat'];
+		$kota = $userDetail['kota'];
+		$provinsi = $userDetail['provinsi'];
+		$nohp = $userDetail['no_hp'];
+		$shoppingTotal = (int) $this->getTotalPriceOnCart($user);
+		$ppn = $shoppingTotal * 10 / 100;
+		$subtotal = $shoppingTotal + $ppn;
+		$ongkir = (int) $this->getOngkir($kota, $expedition, $weight, $package);
+		$total = $subtotal + $ongkir;
+
+		$myGlobal->exeQuery("INSERT INTO tblinvoice VALUES ('$id_transaksi','$noresi','$expedition','$alamat','$kota',
+								'$provinsi','$nohp','$subtotal','$ongkir','$total')");
+
 	}
 
 }

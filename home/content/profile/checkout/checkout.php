@@ -127,7 +127,9 @@
 
             <div class="row">
               <div class="col-md-12">
-                <a href="<?= $baseurl ?>/home/page/profile/checkout" class="btn btn-primary btn-lg py-3 btn-block">Checkout</a>
+                <a href="<?= $baseurl ?>/home/page/profile/checkout" class="btn btn-primary btn-lg py-3 btn-block" id="BtnCheckout">
+                  Checkout
+                </a>
               </div>
             </div>
           </div>

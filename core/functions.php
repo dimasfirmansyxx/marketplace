@@ -731,7 +731,7 @@ class AllFunction{
 	public function makeOrder($expedition, $user, $package)
 	{
 		global $myGlobal;
-		$id_transaksi = getTransactionInfo($user);
+		$id_transaksi = $this->getTransactionInfo($user)['id_transaksi'];
 		$date = date("Y-m-d");
 		$time = date("H:i:s");
 		$status = "pending";
@@ -753,6 +753,19 @@ class AllFunction{
 
 		$myGlobal->exeQuery("INSERT INTO tblinvoice VALUES ('$id_transaksi','$noresi','$expedition','$alamat','$kota',
 								'$provinsi','$nohp','$subtotal','$ongkir','$total')");
+
+		$cartItem = $this->getCartItem($user);
+		foreach ($cartItem as $row) {
+			$thisid = $myGlobal->getNewId("tblinvoicedetail");
+			$thistransaksi = $id_transaksi;
+			$thisproduk = $row['produk_id'];
+			$thisqty = $row['qty'];
+
+			$myGlobal->exeQuery("INSERT INTO tblinvoicedetail VALUES ('$thisid','$thistransaksi','$thisproduk','$thisqty')");
+		}
+
+		$myGlobal->exeQuery("DELETE FROM tblcart WHERE id_transaksi = '$id_transaksi'");
+		$myGlobal->exeQuery("DELETE FROM tblcartdetail WHERE id_transaksi = '$id_transaksi'");
 
 	}
 

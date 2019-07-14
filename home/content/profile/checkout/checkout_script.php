@@ -45,13 +45,18 @@
 	    	if ( expedition == 0 ) {
 	    		swal("Pilih Ekspedisi","Harus memilih salah satu ekspedisi yang tersedia","warning");
 	    	} else {
+	    		$("#BtnCheckout").html("PROCESSING ...");
+	    		$("#BtnCheckout").attr("disabled","disabled");
 	    		$.ajax({
 	    			url : baseurl + "/core/functions.php?cmd=makeOrder",
 	    			data : { expedition : expedition, user : user, package : package },
 	    			type : "post",
 	    			dataType : "json",
 	    			success : function(result){
+	    				$("#BtnCheckout").html("Checkout");
+			    		$("#BtnCheckout").removeAttr("disabled");
 	    				swal("Sukses","Silahkan melanjutkan pembayaran","success");
+	    				window.location = baseurl + "/home/";
 	    			}
 	    		})
 	    	}

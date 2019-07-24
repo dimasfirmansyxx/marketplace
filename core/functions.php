@@ -469,6 +469,18 @@ class AllFunction{
 		return $result;
 	}
 
+	public function getUserInfo($id)
+	{
+		global $myGlobal;
+		$query = "SELECT * FROM tbluser WHERE id = '$id'";
+		if ( $myGlobal->checkAvailability($query) ) {
+			$result = $myGlobal->getData($query);
+		} else {
+			$result = "3";
+		}
+		return $result;
+	}
+
 	public function checkUserDetail($id)
 	{
 		global $myGlobal;
@@ -767,6 +779,73 @@ class AllFunction{
 		$myGlobal->exeQuery("DELETE FROM tblcart WHERE id_transaksi = '$id_transaksi'");
 		$myGlobal->exeQuery("DELETE FROM tblcartdetail WHERE id_transaksi = '$id_transaksi'");
 
+	}
+
+	public function getOrderList($status)
+	{
+		global $myGlobal;
+		$query = "SELECT * FROM tblorder WHERE status = '$status'";
+		return $myGlobal->query($query);
+	}
+
+	public function getInvoiceDetail($transaction)
+	{
+		global $myGlobal;
+		$result = [];
+		$query = "SELECT * FROM tblinvoicedetail WHERE id_transaksi = '$transaction'";
+		$get = $myGlobal->query($query);
+		foreach ($get as $row) {
+			$produkInfo = $this->getProdukInfo($row['produk_id']);
+			$item = [];
+			$item["produk"] = ucwords($produkInfo['nama']);
+			$item["harga"] = $produkInfo['harga'];
+			$item["qty"] = $row['qty'];
+			$item["subtotal"] = $produkInfo['harga'] * $row['qty'];
+
+			$result[] = $item;
+		}
+
+		return $result;
+	}
+
+	public function deleteOrder($transaction)
+	{
+		global $myGlobal;
+
+		$query = "SELECT * FROM tblorder WHERE id_transaksi = '$transaction'";
+		if ( $myGlobal->checkAvailability($query) ) {
+			$data = $myGlobal->getData($query);
+			$myGlobal->exeQuery("DELETE FROM tblinvoicedetail WHERE id_transaksi = '$transaction'");
+			$myGlobal->exeQuery("DELETE FROM tblinvoice WHERE id_transaksi = '$transaction'");
+			$delete = $myGlobal->exeQuery("DELETE FROM tblorder WHERE id_transaksi = '$transaction'");
+			if ( $delete > 0 ) {
+				$result = "0";
+			} else {
+				$result = "2";
+			}
+
+			$message = "PESANAN $transaction SUDAH DIBATALKAN.";
+			$user = $data['user_id'];
+			$msgID = $myGlobal->getNewId("tblnotification");
+			$myGlobal->exeQuery("INSERT INTO tblnotification VALUES ('$msgID','$user','$message','unread')");
+		} else {
+			$result = "3";
+		}
+
+		return $result;
+	}
+
+	public function getTotalNotification($user)
+	{
+		global $myGlobal;
+		$queryCheck = "SELECT * FROM tblnotification WHERE user_id = '$user'";
+		if ( $myGlobal->checkAvailability($queryCheck) ) {
+			$result = $myGlobal->numRows($queryCheck);
+		} else {
+			$result = "0";
+		}
+
+		return $result;
 	}
 
 }

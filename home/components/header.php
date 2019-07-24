@@ -26,8 +26,19 @@
                   </a>
                 </li>
                 <li>
+                  <a href="<?= $baseurl ?>/home/page/profile/notification" class="site-cart" title="Notification">
+                    <span class="icon icon-bell"></span>
+                    <span class="count total-notif-count">0</span>
+                  </a>
+                </li>
+                <li>
                   <a href="<?= $baseurl ?>/home/page/profile/wishlist" title="Wishlist">
                     <span class="icon icon-heart-o"></span>
+                  </a>
+                </li>
+                <li>
+                  <a href="<?= $baseurl ?>/home/page/profile/order" class="site-cart" title="Order">
+                    <span class="icon icon-menu"></span>
                   </a>
                 </li>
                 <li>

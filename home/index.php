@@ -63,6 +63,8 @@
                     $myFunc->logout("userSess");
                 } elseif ( $_GET['param'] == "checkout" ) {
                     include 'content/profile/checkout/checkout.php';
+                } elseif ( $_GET['param'] == "order" ) {
+                    include 'content/profile/order/order.php';
                 }
             }
         } else {

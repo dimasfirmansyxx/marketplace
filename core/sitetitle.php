@@ -48,6 +48,10 @@ if ( $siteTitle == "untitled" ) {
 			$siteTitle = "Checkout - $siteName";
 			break;
 
+		case "$baseurl/home/page/profile/order":
+			$siteTitle = "Order List - $siteName";
+			break;
+
 		case "$baseurl/home":
 			$siteTitle = "Beranda - $siteName";
 			break;

@@ -58,5 +58,11 @@ if ( isset($_GET['cmd']) ) {
 		echo json_encode($myFunc->getOngkir($_POST['destination'],$_POST['expedition'],$_POST['weight'],$_POST['package']));
 	} elseif ( $_GET['cmd'] == "makeOrder" ) {
 		echo json_encode($myFunc->makeOrder($_POST['expedition'],$_POST['user'],$_POST['package']));
+	} elseif ( $_GET['cmd'] == "getInvoiceDetail" ) {
+		echo json_encode($myFunc->getInvoiceDetail($_POST['transaction']));
+	} elseif ( $_GET['cmd'] == "deleteOrder" ) {
+		echo json_encode($myFunc->deleteOrder($_POST['transaction']));
+	} elseif ( $_GET['cmd'] == "getTotalNotification" ) {
+		echo json_encode($myFunc->getTotalNotification($_POST['id']));
 	}
 }

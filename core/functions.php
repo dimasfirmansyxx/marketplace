@@ -781,11 +781,41 @@ class AllFunction{
 
 	}
 
-	public function getOrderList($status)
+	public function getOrderList($status, $user = 0)
 	{
 		global $myGlobal;
 		$query = "SELECT * FROM tblorder WHERE status = '$status'";
 		return $myGlobal->query($query);
+	}
+
+	public function getUserOrder($status, $user)
+	{
+		global $myGlobal;
+		
+		if ( $status == "progress" ) {
+			$query = "SELECT * FROM tblorder WHERE user_id = '$user' AND
+						status = 'pending' OR status = 'request' OR status = 'prepare' OR status = 'ongoing'
+						OR status = 'confirm'";
+		} elseif ( $status == "done" ) {
+			$query = "SELECT * FROM tblorder WHERE user_id = '$user' AND status = 'success'";
+		} elseif ( $status == "decline" ) {
+			$query = "SELECT * FROM tblorder WHERE user_id = '$user' AND status = 'decline'";
+		}
+
+		if ( $myGlobal->numRows($query) > 0 ) {
+			$result = $myGlobal->query($query);
+		} else {
+			$result = "3";
+		}
+
+		return $result;
+
+		/* 
+			status
+			`progress` = pending, request, prepare, ongoing, confirm
+			`done` = success
+			`decline` = decline
+		*/
 	}
 
 	public function getInvoiceDetail($transaction)

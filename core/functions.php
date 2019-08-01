@@ -878,6 +878,12 @@ class AllFunction{
 		return $result;
 	}
 
+	public function uploadProofOfPayment($data)
+	{
+		global $myGlobal;
+		$getId = getNewId("tblrequest");
+	}
+
 }
 
 include 'siteinfo.php';
@@ -892,6 +898,7 @@ include 'request.php';
 	2! = Can't Insert Data
 	3! = Data not Exist
 	4! = Need Login
+	5! = Forbidden
 
 	SESSION
 	adminSess  = Admin Login

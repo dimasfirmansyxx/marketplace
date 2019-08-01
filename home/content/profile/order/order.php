@@ -81,7 +81,34 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalDoPayment" tabindex="-1" role="dialog" style="z-index : 9999;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Pembayaran</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Lakukan pembayaran ke bank <b><u><?= $siteIdentity['bank_name'] ?></u></b> dengan nomor rekening <b><u><?= $siteIdentity['bank_number'] ?></u></b></p>
+        <p>Lalu upload bukti pembayaran</p>
+
+        <form id="FormUploadBukti">
+          <div class="form-group">
+            <input type="file" class="form-control" required>
+            <small>File harus ber-format jpg, jpeg, png, atau bmp</small>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary btn-sm" id="BtnKirimOnUploadBukti">Kirim</button>
+        </form>
       </div>
     </div>
   </div>

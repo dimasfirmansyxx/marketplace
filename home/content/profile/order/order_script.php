@@ -50,5 +50,31 @@
 			});
 		});
 
+		var transactionId = "0";
+
+		$("#TableData").on("click","#BtnDoPayment",function(e){
+			e.preventDefault();
+			transactionId = $(this).attr("data-id");
+			$("#modalDoPayment").modal("show");
+		});
+
+		$("#FormUploadBukti").on("submit",function(e){
+			e.preventDefault();
+			$("#BtnKirimOnUploadBukti").html("Sedang Mengirim");
+			$("#BtnKirimOnUploadBukti").attr("disabled","disabled");
+			$.ajax({
+				url : baseurl + "/core/functions.php?cmd="
+				type : 'post',
+				data : formdata,
+				contentType: false,
+                cache: false,
+                processData:false,
+                dataType : 'json',
+				success : function(result) {
+					
+				}
+			});
+		});
+
 	});
 </script>

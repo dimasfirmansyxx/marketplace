@@ -18,7 +18,7 @@
             <td>
               <button data-id="<?= $row['id_transaksi'] ?>" class="btn btn-primary btn-sm" id="BtnShowOrderList">Lihat Orderan</button>
               <?php if ( $row['status'] == "pending" ) : ?>
-                <button class="btn btn-success btn-sm" id="BtnDoPayment">Lakukan Pembayaran</button>
+                <button data-id="<?= $row['id_transaksi'] ?>" class="btn btn-success btn-sm" id="BtnDoPayment">Lakukan Pembayaran</button>
               <?php endif ?>
             </td>
         </tr>

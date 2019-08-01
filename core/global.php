@@ -73,17 +73,29 @@ class GlobalFunction{
 		$ekstensi = strtolower(end(explode('.', $nama)));
 		$allow = ['jpg','jpeg','png','bmp','svg','gif','tiff'];
 
-		if ( in_array($ekstensi, $allow) ) {
-			if ( $fileName == "random" ) {
-				$newName = uniqid() . '.' . $ekstensi;
-			} else {
-				$newName = $fileName;
-			}
-
-			move_uploaded_file($tmpName, $destination . $newName);
-
-			return $newName;
+		if ( $fileName == "random" ) {
+			$newName = uniqid() . '.' . $ekstensi;
+		} else {
+			$newName = $fileName;
 		}
+
+		move_uploaded_file($tmpName, $destination . $newName);
+
+		return $newName;
+	}
+
+	public function filterFile($paramName,$allowExtension)
+	{
+		$nama = $_FILES[$paramName]['name'];
+		$ekstensi = strtolower(end(explode('.', $name)));
+
+		if ( in_array($ekstensi,$allowExtension) ) {	
+			$result = "0";
+		} else {
+			$result = "5";
+		}
+
+		return $result;
 	}
 
 	public function filterWord($word)

@@ -55,8 +55,12 @@
 	    			success : function(result){
 	    				$("#BtnCheckout").html("Checkout");
 			    		$("#BtnCheckout").removeAttr("disabled");
-	    				swal("Sukses","Silahkan melanjutkan pembayaran","success");
-	    				window.location = baseurl + "/home/";
+						if ( result == "0" ) {
+							swal("Sukses","Silahkan melanjutkan pembayaran","success");
+							window.location = baseurl + "/home/";
+						} else {							
+							swal("Gagal","Gagal melakukan checkout","error");
+						}
 	    			}
 	    		})
 	    	}

@@ -87,7 +87,7 @@ class GlobalFunction{
 	public function filterFile($paramName,$allowExtension)
 	{
 		$nama = $_FILES[$paramName]['name'];
-		$ekstensi = strtolower(end(explode('.', $name)));
+		$ekstensi = strtolower(end(explode('.', $nama)));
 
 		if ( in_array($ekstensi,$allowExtension) ) {	
 			$result = "0";

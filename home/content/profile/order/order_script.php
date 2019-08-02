@@ -2,7 +2,8 @@
 	$(document).ready(function(){
 
 		var baseurl = "<?= $baseurl ?>";
-		var	user = "<?= $_SESSION["userInfo"]['id'] ?>"
+		var	user = "<?= $_SESSION["userInfo"]['id'] ?>";
+		var lastpage = "progress";
 
 		function loadProgress(){
 			$("#LblLoading").css("visibility","show");
@@ -12,9 +13,16 @@
 				$("#TableData").load(baseurl + "/home/content/profile/order/progress.php");
 				$("#LblLoading").css("visibility","hidden");
 			},1000);
+			lastpage = "progress";
 		}
 
-	    loadProgress();
+	    function loadContent(){
+			if ( lastpage == "progress" ) {
+				loadProgress();
+			}
+		}
+
+		loadContent();
 
 		$("#TableData").on("click","#BtnShowOrderList",function(e){
 			e.preventDefault();
@@ -60,10 +68,13 @@
 
 		$("#FormUploadBukti").on("submit",function(e){
 			e.preventDefault();
+			var formdata = new FormData(this);
+			formdata.append("user",user);
+			formdata.append("transaction",transactionId);
 			$("#BtnKirimOnUploadBukti").html("Sedang Mengirim");
 			$("#BtnKirimOnUploadBukti").attr("disabled","disabled");
 			$.ajax({
-				url : baseurl + "/core/functions.php?cmd="
+				url : baseurl + "/core/functions.php?cmd=uploadProofOfPayment",
 				type : 'post',
 				data : formdata,
 				contentType: false,
@@ -71,7 +82,20 @@
                 processData:false,
                 dataType : 'json',
 				success : function(result) {
-					
+					if ( result == "0" ) {
+                		swal("Sukses!", "Berhasil mengirim request pembayaran", "success");
+                		loadContent();
+                	} else if ( result == "1" ) {
+                		swal("Gagal!", "Sudah pernah melakukan pengiriman request pembayaran", "warning");
+                	} else if ( result == "2" ) {
+                		swal("Gagal!", "Terjadi Kesalahan pada Server", "error");
+                	} else if ( result == "5" ) {
+						swal("Gagal!", "Ekstensi file tidak diperbolehkan","error");
+					} else {
+						swal("Gagal!", "Terdapat kesalahan","error");
+					}
+					$("#BtnKirimOnUploadBukti").html("Kirim");
+					$("#BtnKirimOnUploadBukti").removeAttr("disabled");
 				}
 			});
 		});

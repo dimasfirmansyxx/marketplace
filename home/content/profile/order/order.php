@@ -101,7 +101,7 @@
 
         <form id="FormUploadBukti">
           <div class="form-group">
-            <input type="file" class="form-control" required>
+            <input type="file" class="form-control" name="gambar" required>
             <small>File harus ber-format jpg, jpeg, png, atau bmp</small>
           </div>
       </div>

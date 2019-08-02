@@ -748,7 +748,13 @@ class AllFunction{
 		$time = date("H:i:s");
 		$status = "pending";
 
-		$myGlobal->exeQuery("INSERT INTO tblorder VALUES ('$id_transaksi','$user','$date','$time','$status')");
+		$insert = $myGlobal->exeQuery("INSERT INTO tblorder VALUES ('$id_transaksi','$user','$date','$time','$status')");
+
+		if ( $insert > 0 ) {
+			$result = "0";
+		} else {
+			$result = "2";
+		}
 
 		$userDetail = $this->getUserDetail($user);
 		$weight = $this->getItemWeight($user);
@@ -776,8 +782,10 @@ class AllFunction{
 			$myGlobal->exeQuery("INSERT INTO tblinvoicedetail VALUES ('$thisid','$thistransaksi','$thisproduk','$thisqty')");
 		}
 
-		$myGlobal->exeQuery("DELETE FROM tblcart WHERE id_transaksi = '$id_transaksi'");
 		$myGlobal->exeQuery("DELETE FROM tblcartdetail WHERE id_transaksi = '$id_transaksi'");
+		$myGlobal->exeQuery("DELETE FROM tblcart WHERE id_transaksi = '$id_transaksi'");
+
+		return $result;
 
 	}
 
@@ -868,7 +876,7 @@ class AllFunction{
 	public function getTotalNotification($user)
 	{
 		global $myGlobal;
-		$queryCheck = "SELECT * FROM tblnotification WHERE user_id = '$user'";
+		$queryCheck = "SELECT * FROM tblnotification WHERE user_id = '$user' AND status = 'unread'";
 		if ( $myGlobal->checkAvailability($queryCheck) ) {
 			$result = $myGlobal->numRows($queryCheck);
 		} else {
@@ -881,7 +889,31 @@ class AllFunction{
 	public function uploadProofOfPayment($data)
 	{
 		global $myGlobal;
-		$getId = getNewId("tblrequest");
+		$getId = $myGlobal->getNewId("tblrequest");
+		$transaction = $data['transaction'];
+		$user = $data['user'];
+		$allowExtension = ["jpg","jpeg","png","bmp"];
+		$checkFile = $myGlobal->filterFile("gambar",$allowExtension);
+		if ( $checkFile == "0" ) {
+			if ( $myGlobal->checkAvailability("SELECT * FROM tblrequest WHERE transaksi_id = '$transaction'") ) {
+				$result = "1";
+			} else {
+				$bukti = $myGlobal->uploadFile("../images/bukti_pembayaran/","gambar");
+				$queryInsert = "INSERT INTO tblrequest VALUES ('$getId','$transaction','$user','$bukti')";
+				$insert = $myGlobal->exeQuery($queryInsert);
+				if ( $insert > 0 ) {
+					$result = "0";
+				} else {
+					$result = "2";
+				}
+
+				$myGlobal->exeQuery("UPDATE tblorder SET status = 'request' WHERE id_transaksi = '$transaction'");
+			}
+		} else {
+			$result = "5";
+		}
+
+		return $result;
 	}
 
 }

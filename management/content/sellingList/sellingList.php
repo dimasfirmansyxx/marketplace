@@ -88,4 +88,24 @@
   </div>
 </div>
 
+<div class="modal fade" id="buktimodal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Bukti Pembayaran</h4>
+      </div>
+      <div class="modal-body text-center">
+        <a href="#" target="_blank" id="LinkBuktiPembayaran">
+          <img src="" width="300" id="ImgBuktiPembayaran">
+        </a>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <?php include 'sellingList_script.php' ?>

@@ -916,6 +916,12 @@ class AllFunction{
 		return $result;
 	}
 
+	public function getProofOfPayment($transaction)
+	{
+		global $myGlobal;
+		return $myGlobal->getData("SELECT * FROM tblrequest WHERE transaksi_id = '$transaction'");
+	}
+
 }
 
 include 'siteinfo.php';

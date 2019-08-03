@@ -66,5 +66,7 @@ if ( isset($_GET['cmd']) ) {
 		echo json_encode($myFunc->getTotalNotification($_POST['id']));
 	} elseif ( $_GET['cmd'] == "uploadProofOfPayment" ) {
 		echo json_encode($myFunc->uploadProofOfPayment($_POST));
+	} elseif ( $_GET['cmd'] == "getProofOfPayment" ) {
+		echo json_encode($myFunc->getProofOfPayment($_POST['transaction']));
 	}
 }

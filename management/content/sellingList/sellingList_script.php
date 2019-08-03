@@ -21,6 +21,7 @@
 		function loadRequest(){
 			$(".BtnShowStatus").removeAttr("disabled");
 			$("#BtnShowRequest").attr("disabled","disabled");
+			$(".DataInHere").empty();
 
 			$(".LblLoading").css("display","block");
 			$(".box-title").html("List Payment Request");
@@ -34,6 +35,7 @@
 		function loadPending(){
 			$(".BtnShowStatus").removeAttr("disabled");
 			$("#BtnShowPending").attr("disabled","disabled");
+			$(".DataInHere").empty();
 
 			$(".LblLoading").css("display","block");
 			$(".box-title").html("List Payment Pending");
@@ -45,7 +47,21 @@
 			active = "pending";
 		}
 
-		loadPending();
+		loadRequest();
+
+		$(".BtnShowStatus").on("click",function(e){
+			e.preventDefault();
+			var param = $(this).attr("id");
+			switch (param) {
+				case "BtnShowRequest":
+					loadRequest();
+					break;
+				case "BtnShowPending":
+					loadPending();
+					break;
+			}
+		});
+
 
 		$(".DataInHere").on("click","#BtnShowOrderList",function(){
 			var transaction = $(this).attr("data-id");
@@ -110,6 +126,24 @@
 		                	}
 						}
 					});
+				}
+			});
+		});
+
+		$(".DataInHere").on("click","#BtnShowBukti",function(e){
+			e.preventDefault();
+			var transaction = $(this).attr("data-id");
+			$("#ImgBuktiPembayaran").attr("src",baseurl + "/images/loader.gif");
+			$("#LinkBuktiPembayaran").attr("href","#");
+			$("#buktimodal").modal("show");
+			$.ajax({
+				url : baseurl + "/core/functions.php?cmd=getProofOfPayment",
+				data : { transaction : transaction },
+				type : "post",
+				dataType : "json",
+				success : function(result) {
+					$("#ImgBuktiPembayaran").attr("src",baseurl + "/images/bukti_pembayaran/" + result.bukti);	
+					$("#LinkBuktiPembayaran").attr("href",baseurl + "/images/bukti_pembayaran/" + result.bukti);
 				}
 			});
 		});

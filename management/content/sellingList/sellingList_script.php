@@ -2,7 +2,7 @@
 	$(document).ready(function(){
 
 		var baseurl = "<?= $baseurl ?>";
-		var active = "pending";
+		var active = "request";
 
 		function loadActive(){
 			if ( active == "pending" ) { 
@@ -10,9 +10,9 @@
 			} else if ( active == "request" ) {
 				loadRequest();
 			} else if ( active == "confirm" ) {
-				// loadConfirmed();
+				loadConfirmed();
 			} else if ( active == "prepare" ) {
-				// loadPrepare();
+				loadPrepare();
 			} else if ( active == "ongoing" ) {
 				// loadOngoing();
 			}
@@ -20,7 +20,6 @@
 
 		function loadRequest(){
 			$(".BtnShowStatus").removeAttr("disabled");
-			$("#BtnShowRequest").attr("disabled","disabled");
 			$(".DataInHere").empty();
 
 			$(".LblLoading").css("display","block");
@@ -34,7 +33,6 @@
 		}
 		function loadPending(){
 			$(".BtnShowStatus").removeAttr("disabled");
-			$("#BtnShowPending").attr("disabled","disabled");
 			$(".DataInHere").empty();
 
 			$(".LblLoading").css("display","block");
@@ -45,6 +43,32 @@
 			},1000);
 
 			active = "pending";
+		}
+		function loadConfirmed(){
+			$(".BtnShowStatus").removeAttr("disabled");
+			$(".DataInHere").empty();
+
+			$(".LblLoading").css("display","block");
+			$(".box-title").html("List Payment Confirmed");
+			$(".DataInHere").load(baseurl + "/management/content/sellingList/confirm.php");
+			setTimeout(function(){
+				$(".LblLoading").css("display","none");
+			},1000);
+
+			active = "confirm";
+		}
+		function loadPrepare(){
+			$(".BtnShowStatus").removeAttr("disabled");
+			$(".DataInHere").empty();
+
+			$(".LblLoading").css("display","block");
+			$(".box-title").html("List Item in Preparation");
+			$(".DataInHere").load(baseurl + "/management/content/sellingList/prepare.php");
+			setTimeout(function(){
+				$(".LblLoading").css("display","none");
+			},1000);
+
+			active = "prepare";
 		}
 
 		loadRequest();
@@ -58,6 +82,12 @@
 					break;
 				case "BtnShowPending":
 					loadPending();
+					break;
+				case "BtnShowConfirm":
+					loadConfirmed();
+					break;
+				case "BtnShowPrepare":
+					loadPrepare();
 					break;
 			}
 		});
@@ -74,6 +104,7 @@
 					var subtotal = 0;
 
 					var table = $("#TblShowOrderList");
+					table.empty();
 					$.each(result, function(){
 						var tr = $("<tr/>");
 						var td1 = $("<td>" + this.produk + "</td>");
@@ -144,6 +175,109 @@
 				success : function(result) {
 					$("#ImgBuktiPembayaran").attr("src",baseurl + "/images/bukti_pembayaran/" + result.bukti);	
 					$("#LinkBuktiPembayaran").attr("href",baseurl + "/images/bukti_pembayaran/" + result.bukti);
+				}
+			});
+		});
+
+		$(".DataInHere").on("click","#BtnAcceptPayment",function(e){
+			e.preventDefault();
+			var transaction = $(this).attr("data-id");
+			swal({
+				title : "Terima Pembayaran ?",
+				text : "Yakin ingin menerima pembayaran orderan "+ transaction +" ?",
+				icon : "warning",
+				buttons : ["Tidak", "Ya, Lanjutkan"],
+				dangerMode : false
+			}).then(function(isConfirm){
+				if ( isConfirm ) {
+					$.ajax({
+						url : baseurl + "/core/functions.php?cmd=acceptOrder",
+						data : { transaction : transaction },
+						type : "post",
+						dataType : "json",
+						success : function(result) {
+							if ( result == "0" ) {
+		                		swal("Sukses!", "Berhasil Menerima Orderan", "success");
+		                		loadActive();
+		                	} else if ( result == "3" ) {
+		                		swal("Gagal!", "Orderan tidak tersedia", "warning");
+		                	} else if ( result == "2" ) {
+		                		swal("Gagal!", "Terjadi Kesalahan pada Server", "error");
+		                	}
+						}
+					});
+				}
+			});
+		});
+
+		$(".DataInHere").on("click","#BtnDeclinePayment",function(e){
+			e.preventDefault();
+			var transaction = $(this).attr("data-id");
+			var reason;
+			swal({
+				text: 'Alasan penolakan?',
+				content: "input",
+				buttons : ["Tidak", "Ya, Lanjutkan"],
+				dangerMode : false
+			}).then(input => {
+				if ( !(input == "" || input == " " || input == null) ) {
+					reason = "ORDERAN " + transaction + " DITOLAK. " + input;
+				} else if ( !(input == null) ) {
+					reason = "PEMBAYARAN PADA ORDERAN "+ transaction +" DITOLAK.";
+				} else {
+					reason = null;
+				}
+
+				if ( !(reason == null) ) {
+					$.ajax({
+						url : baseurl + "/core/functions.php?cmd=declineOrder",
+						data : { transaction : transaction, reason : reason },
+						type : "post",
+						dataType : "json",
+						success : function(result) {
+							if ( result == "0" ) {
+								swal("Sukses!", "Berhasil Menolak Orderan", "success");
+								loadActive();
+							} else if ( result == "3" ) {
+								swal("Gagal!", "Orderan tidak tersedia", "warning");
+							} else if ( result == "2" ) {
+								swal("Gagal!", "Terjadi Kesalahan pada Server", "error");
+							}
+						}
+					});
+				} 
+			});
+
+
+		});
+
+		$(".DataInHere").on("click","#BtnToPrepMode",function(e){
+			e.preventDefault();
+			var transaction = $(this).attr("data-id");
+			swal({
+				title : "Siapkan produk ?",
+				text : "Ubah status orderan "+ transaction +" ke 'Barang disiapkan' ?",
+				icon : "warning",
+				buttons : ["Tidak", "Ya, Lanjutkan"],
+				dangerMode : false
+			}).then(function(isConfirm){
+				if ( isConfirm ) {
+					$.ajax({
+						url : baseurl + "/core/functions.php?cmd=prepStatusOrder",
+						data : { transaction : transaction },
+						type : "post",
+						dataType : "json",
+						success : function(result) {
+							if ( result == "0" ) {
+		                		swal("Sukses!", "Berhasil Merubah status Orderan", "success");
+		                		loadActive();
+		                	} else if ( result == "3" ) {
+		                		swal("Gagal!", "Orderan tidak tersedia", "warning");
+		                	} else if ( result == "2" ) {
+		                		swal("Gagal!", "Terjadi Kesalahan pada Server", "error");
+		                	}
+						}
+					});
 				}
 			});
 		});

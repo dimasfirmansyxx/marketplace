@@ -769,8 +769,11 @@ class AllFunction{
 		$ongkir = (int) $this->getOngkir($kota, $expedition, $weight, $package);
 		$total = $subtotal + $ongkir;
 
-		$myGlobal->exeQuery("INSERT INTO tblinvoice VALUES ('$id_transaksi','$noresi','$expedition','$alamat','$kota',
-								'$provinsi','$nohp','$subtotal','$ongkir','$total')");
+		if ( $expedition == "jne" ) {
+			$expedition = $package;
+		}
+
+		$myGlobal->exeQuery("INSERT INTO tblinvoice VALUES ('$id_transaksi','$noresi','$expedition','$alamat','$kota','$provinsi','$nohp','$subtotal','$ongkir','$total')");
 
 		$cartItem = $this->getCartItem($user);
 		foreach ($cartItem as $row) {
@@ -920,6 +923,80 @@ class AllFunction{
 	{
 		global $myGlobal;
 		return $myGlobal->getData("SELECT * FROM tblrequest WHERE transaksi_id = '$transaction'");
+	}
+
+	public function acceptOrder($transaction)
+	{
+		global $myGlobal;
+
+		$query = "SELECT * FROM tblorder WHERE id_transaksi = '$transaction'";
+		if ( $myGlobal->checkAvailability($query) ) {
+			$data = $myGlobal->getData($query);
+			$update = $myGlobal->exeQuery("UPDATE tblorder SET status = 'confirm' WHERE id_transaksi = '$transaction'");
+			if ( $update > 0 ) {
+				$result = "0";
+			} else {
+				$result = "2";
+			}
+
+			$message = "PEMBAYARAN PADA ORDERAN $transaction SUDAH DITERIMA.";
+			$user = $data['user_id'];
+			$msgID = $myGlobal->getNewId("tblnotification");
+			$myGlobal->exeQuery("INSERT INTO tblnotification VALUES ('$msgID','$user','$message','unread')");
+		} else {
+			$result = "3";
+		}
+
+		return $result;
+	}
+
+	public function declineOrder($transaction,$reason)
+	{
+		global $myGlobal;
+
+		$query = "SELECT * FROM tblorder WHERE id_transaksi = '$transaction'";
+		if ( $myGlobal->checkAvailability($query) ) {
+			$data = $myGlobal->getData($query);
+			$update = $myGlobal->exeQuery("UPDATE tblorder SET status = 'decline' WHERE id_transaksi = '$transaction'");
+			if ( $update > 0 ) {
+				$result = "0";
+			} else {
+				$result = "2";
+			}
+
+			$user = $data['user_id'];
+			$msgID = $myGlobal->getNewId("tblnotification");
+			$myGlobal->exeQuery("INSERT INTO tblnotification VALUES ('$msgID','$user','$reason','unread')");
+		} else {
+			$result = "3";
+		}
+
+		return $result;
+	}
+
+	public function prepStatusOrder($transaction)
+	{
+		global $myGlobal;
+
+		$query = "SELECT * FROM tblorder WHERE id_transaksi = '$transaction'";
+		if ( $myGlobal->checkAvailability($query) ) {
+			$data = $myGlobal->getData($query);
+			$update = $myGlobal->exeQuery("UPDATE tblorder SET status = 'prepare' WHERE id_transaksi = '$transaction'");
+			if ( $update > 0 ) {
+				$result = "0";
+			} else {
+				$result = "2";
+			}
+
+			$user = $data['user_id'];
+			$msgID = $myGlobal->getNewId("tblnotification");
+			$msg = "ORDERAN $transaction SEDANG DISIAPKAN";
+			$myGlobal->exeQuery("INSERT INTO tblnotification VALUES ('$msgID','$user','$msg','unread')");
+		} else {
+			$result = "3";
+		}
+
+		return $result;
 	}
 
 }

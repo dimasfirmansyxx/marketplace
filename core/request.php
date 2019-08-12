@@ -68,5 +68,11 @@ if ( isset($_GET['cmd']) ) {
 		echo json_encode($myFunc->uploadProofOfPayment($_POST));
 	} elseif ( $_GET['cmd'] == "getProofOfPayment" ) {
 		echo json_encode($myFunc->getProofOfPayment($_POST['transaction']));
+	} elseif ( $_GET['cmd'] == "acceptOrder" ) {
+		echo json_encode($myFunc->acceptOrder($_POST['transaction']));
+	} elseif ( $_GET['cmd'] == "declineOrder" ) {
+		echo json_encode($myFunc->declineOrder($_POST['transaction'],$_POST['reason']));
+	} elseif ( $_GET['cmd'] == "prepStatusOrder" ) {
+		echo json_encode($myFunc->prepStatusOrder($_POST['transaction']));
 	}
 }

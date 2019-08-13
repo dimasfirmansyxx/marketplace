@@ -21,7 +21,7 @@
 				<td><?= $row['tanggal'] . " " . $row['waktu'] ?></td>
 				<td class="text-center">
 					<button class="btn btn-info btn-sm" id="BtnShowInfoPengiriman" data-id="<?= $row['id_transaksi'] ?>">
-						<i class="fa fa-info"></i> Info Pengiriman
+						<i class="fa fa-info"></i> Invoice
 					</button>
 					<button class="btn btn-success btn-sm" id="BtnToOngoing" data-id="<?= $row['id_transaksi'] ?>">
 						<i class="fa fa-paper-plane"></i> Kirim Barang

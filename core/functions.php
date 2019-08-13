@@ -992,11 +992,35 @@ class AllFunction{
 			$msgID = $myGlobal->getNewId("tblnotification");
 			$msg = "ORDERAN $transaction SEDANG DISIAPKAN";
 			$myGlobal->exeQuery("INSERT INTO tblnotification VALUES ('$msgID','$user','$msg','unread')");
+
 		} else {
 			$result = "3";
 		}
 
 		return $result;
+	}
+
+	public function getInvoice($transaction)
+	{
+		global $myGlobal;
+
+		$order = $myGlobal->getData("SELECT * FROM tblorder WHERE id_transaksi = '$transaction'");
+		$invoice = $myGlobal->getData("SELECT * FROM tblinvoice WHERE id_transaksi = '$transaction'");
+		$user = $this->getUserInfo($order['user_id']);
+		$kota = $this->getRegionInfo("city", $invoice['kota']);
+		$provinsi = $this->getRegionInfo("province", $invoice['provinsi']);
+
+		$alamat = $invoice['alamat'] . ". " . $kota['city'] . ", " . $provinsi['province'];
+
+		$result = [
+			"nama" => $user['nama'],
+			"alamat" => $alamat,
+			"nohp" => $invoice['nohp'],
+			"ekspedisi" => strtoupper($invoice['ekspedisi']),
+		];
+
+		return $result;
+
 	}
 
 }

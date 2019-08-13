@@ -109,17 +109,60 @@
 </div>
 
 <div class="modal fade" id="infopengirmanmodal">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Info Pengiriman</h4>
+        <h4 class="modal-title">Order List</h4>
       </div>
-      <div class="modal-body text-center">
-        <a href="#" target="_blank" id="LinkBuktiPembayaran">
-          <img src="" width="300" id="ImgBuktiPembayaran">
-        </a>
+      <div class="modal-body">
+        <div class="table-responsive mt-3">
+          <table class="table">
+            <tr>
+              <td>Nomor Transaksi</td>
+              <th>: <span id="InfoModalNomor"></span></th>
+            </tr>
+            <tr>
+              <td>Nama</td>
+              <th>: <span id="InfoModalNama"></span></th>
+            </tr>
+            <tr>
+              <td>Alamat</td>
+              <th>: <span id="InfoModalAlamat"></span></th>
+            </tr>
+            <tr>
+              <td>Nomor Handphone</td>
+              <th>: <span id="InfoModalHP"></span></th>
+            </tr>
+            <tr>
+              <td>Paket Ekspedisi</td>
+              <th>: <span id="InfoModalEkspedisi"></span></th>
+            </tr>
+          </table>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Produk</th>
+                <th>Harga</th>
+                <th>Qty</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody id="TblInfoModalOrderList">
+              
+            </tbody>
+            <tfoot>
+              <tr>
+                <th class="text-right" colspan="3">Subtotal + PPN (10%)</th>
+                <th class="text-center" id="TblInfoModalOrderListTotal"></th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
       <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>

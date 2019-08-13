@@ -71,7 +71,7 @@
 			active = "prepare";
 		}
 
-		loadRequest();
+		loadPrepare();
 
 		$(".BtnShowStatus").on("click",function(e){
 			e.preventDefault();
@@ -276,6 +276,59 @@
 		                	} else if ( result == "2" ) {
 		                		swal("Gagal!", "Terjadi Kesalahan pada Server", "error");
 		                	}
+						}
+					});
+				}
+			});
+		});
+
+		$(".DataInHere").on("click","#BtnShowInfoPengiriman",function(e){
+			e.preventDefault();
+			var transaction = $(this).attr("data-id");
+			$.ajax({
+				url : baseurl + "/core/functions.php?cmd=getInvoice",
+				data : { transaction : transaction },
+				type : "post",
+				dataType : "json",
+				success : function(result) {
+					$("#InfoModalNomor").html(transaction);
+					$("#InfoModalNama").html(result.nama);
+					$("#InfoModalAlamat").html(result.alamat);
+					$("#InfoModalHP").html(result.nohp);
+					$("#InfoModalEkspedisi").html(result.ekspedisi);
+
+					$.ajax({
+						url : baseurl + "/core/functions.php?cmd=getInvoiceDetail",
+						data : { transaction : transaction },
+						type : "post",
+						dataType : "json",
+						success : function(result) {
+							var subtotal = 0;
+
+							var table = $("#TblInfoModalOrderList");
+							table.empty();
+							$.each(result, function(){
+								var tr = $("<tr/>");
+								var td1 = $("<td>" + this.produk + "</td>");
+								var td2 = $("<td>" + this.harga + "</td>");
+								var td3 = $("<td>" + this.qty + "</td>");
+								var td4 = $("<td>" + this.subtotal + "</td>");
+								
+								subtotal = subtotal + parseInt(this.subtotal); 
+
+								tr.append(td1);
+								tr.append(td2);
+								tr.append(td3);
+								tr.append(td4);
+
+								table.append(tr);
+							});
+
+							var ppn = subtotal * 10 / 100;
+							var total = ppn + subtotal;
+
+							$("#TblInfoModalOrderListTotal").html(total);
+							$("#infopengirmanmodal").modal("show");
 						}
 					});
 				}

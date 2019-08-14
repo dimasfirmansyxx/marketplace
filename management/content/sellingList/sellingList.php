@@ -116,7 +116,7 @@
           <span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Order List</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" id="PrintThisInvoice">
         <div class="table-responsive mt-3">
           <table class="table">
             <tr>
@@ -143,7 +143,7 @@
         </div>
 
         <div class="table-responsive">
-          <table class="table">
+          <table class="table table-bordered table-stripped">
             <thead>
               <tr>
                 <th>Produk</th>
@@ -166,7 +166,7 @@
       </div>
       <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-          <a href="#" class="btn btn-primary"><i class="fa fa-print"></i> Cetak</a>
+          <button id="BtnPrintInvoice" class="btn btn-primary"><i class="fa fa-print"></i> Cetak</button>
       </div>
     </div>
   </div>

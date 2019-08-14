@@ -36,6 +36,7 @@
 				dataType : "json",
 				success : function(result){
 					var table = $("#DataOrderListOnModal");
+					table.empty();
 					$.each(result, function(){
 						var tr = $("<tr/>");
 						var produk = $("<td>" + this.produk + "</td>");

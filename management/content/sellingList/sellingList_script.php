@@ -14,7 +14,7 @@
 			} else if ( active == "prepare" ) {
 				loadPrepare();
 			} else if ( active == "ongoing" ) {
-				// loadOngoing();
+				loadOngoing();
 			}
 		}
 
@@ -70,8 +70,21 @@
 
 			active = "prepare";
 		}
+		function loadOngoing(){
+			$(".BtnShowStatus").removeAttr("disabled");
+			$(".DataInHere").empty();
 
-		loadPrepare();
+			$(".LblLoading").css("display","block");
+			$(".box-title").html("List Item Ongoing");
+			$(".DataInHere").load(baseurl + "/management/content/sellingList/ongoing.php");
+			setTimeout(function(){
+				$(".LblLoading").css("display","none");
+			},1000);
+
+			active = "ongoing";
+		}
+
+		loadOngoing();
 
 		$(".BtnShowStatus").on("click",function(e){
 			e.preventDefault();
@@ -88,6 +101,9 @@
 					break;
 				case "BtnShowPrepare":
 					loadPrepare();
+					break;
+				case "BtnShowOngoing":
+					loadOngoing();
 					break;
 			}
 		});
@@ -334,6 +350,47 @@
 				}
 			});
 		});
+
+		$("#BtnPrintInvoice").on("click",function(e){
+			e.preventDefault();
+			$.print("#PrintThisInvoice");
+		});
+
+		$(".DataInHere").on("click","#BtnToOngoing",function(e){
+			e.preventDefault();
+			var transaction = $(this).attr("data-id");
+			var input;
+			swal({
+				text: 'Masukkan nomor resi',
+				content: "input",
+				buttons : ["Batal", "Submit"],
+				dangerMode : false
+			}).then(input => {
+				if ( input == "" || input == " " || input == null ) {
+					input = null;
+				}
+
+				if ( !(input == null) ) {
+					$.ajax({
+						url : baseurl + "/core/functions.php?cmd=sendItem",
+						data : { transaction : transaction, resi : input },
+						type : "post",
+						dataType : "json",
+						success : function(result) {
+							if ( result == "0" ) {
+								swal("Sukses!", "Berhasil Memasukkan resi Orderan", "success");
+								loadActive();
+							} else if ( result == "3" ) {
+								swal("Gagal!", "Orderan tidak tersedia", "warning");
+							} else if ( result == "2" ) {
+								swal("Gagal!", "Terjadi Kesalahan pada Server", "error");
+							}
+						}
+					});
+				} 
+			});
+		});
+
 
 	});
 </script>

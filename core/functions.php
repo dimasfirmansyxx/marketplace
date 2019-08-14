@@ -1020,7 +1020,35 @@ class AllFunction{
 		];
 
 		return $result;
+	}
 
+	public function sendItem($transaction,$resi)
+	{
+		global $myGlobal;
+
+		$query = "SELECT * FROM tblorder WHERE id_transaksi = '$transaction'";
+		if ( $myGlobal->checkAvailability($query) ) {
+			$data = $myGlobal->getData($query);
+			$update = $myGlobal->exeQuery("UPDATE tblorder SET status = 'ongoing' WHERE id_transaksi = '$transaction'");
+			if ( $update > 0 ) {
+				$result = "0";
+			} else {
+				$result = "2";
+			}
+
+			$myGlobal->exeQuery("UPDATE tblinvoice SET no_resi = '$resi' WHERE id_transaksi = '$transaction'");
+
+
+			$user = $data['user_id'];
+			$msgID = $myGlobal->getNewId("tblnotification");
+			$msg = "ORDERAN $transaction SUDAH DIKIRIM. NOMOR RESI $resi";
+			$myGlobal->exeQuery("INSERT INTO tblnotification VALUES ('$msgID','$user','$msg','unread')");
+
+		} else {
+			$result = "3";
+		}
+
+		return $result;
 	}
 
 }

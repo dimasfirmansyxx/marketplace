@@ -1055,6 +1055,32 @@ class AllFunction{
 	{
 		global $myGlobal;
 		return $data;
+		$id = $myGlobal->getNewId("tbluser");
+		$nama = $myGlobal->filterWord($data['name']);
+		$email = $myGlobal->filterWord($data['email']);
+		$username = $myGlobal->filterWord($data['username']);
+		$password = $myGlobal->filterWord($data['password']);
+		$password = password_hash($password, PASSWORD_DEFAULT);
+
+		$queryCheck = "SELECT * FROM tbladmin WHERE username = '$username'";
+
+		if ( $myGlobal->checkAvailability($queryCheck) ) {
+			$result = "1";
+		} else {
+			$queryCheck = "SELECT * FROM tbladmin WHERE email = '$email'";
+			if ( $myGlobal->checkAvailability($queryCheck) ) {
+				$result = "6";
+			} else {
+				$queryInsert = "INSERT INTO tbladmin VALUES ('$id','$nama','$username','$password','$email')";
+				$insert = $myGlobal->exeQuery($queryInsert);
+
+				if ( $insert > 0 ) {
+					$result = "0";
+				} else {
+					$result = "2";
+				}
+			}
+		}
 	}
 
 }
@@ -1072,6 +1098,7 @@ include 'request.php';
 	3! = Data not Exist
 	4! = Need Login
 	5! = Forbidden
+	6! = Data Exist Alt
 
 	SESSION
 	adminSess  = Admin Login

@@ -11,7 +11,7 @@
 			e.preventDefault();
 			var data = $(this).serializeArray();
 			$.ajax({
-				url : baseurl + "/core/functionsa.php?cmd=addAdmin",
+				url : baseurl + "/core/functions.php?cmd=addAdmin",
 				data : data,
 				type : "post",
 				dataType : "json",
@@ -23,7 +23,6 @@
                 	} else if ( result == "2" ) {
                 		swal("Gagal!", "Terjadi Kesalahan pada Server", "error");
                 	}
-                	console.log(result);
 				}
 			});
 		});

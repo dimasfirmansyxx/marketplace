@@ -1051,6 +1051,12 @@ class AllFunction{
 		return $result;
 	}
 
+	public function addAdmin($data)
+	{
+		global $myGlobal;
+		return $data;
+	}
+
 }
 
 include 'siteinfo.php';

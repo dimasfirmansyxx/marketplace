@@ -80,5 +80,7 @@ if ( isset($_GET['cmd']) ) {
 		echo json_encode($myFunc->sendItem($_POST['transaction'],$_POST['resi']));
 	} elseif ( $_GET['cmd'] == "addAdmin" ) {
 		echo json_encode($myFunc->addAdmin($_POST));
+	} elseif ( $_GET['cmd'] == "adminLogin" ) {
+		echo json_encode($myFunc->adminLogin($_POST));
 	}
 }

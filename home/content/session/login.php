@@ -54,7 +54,7 @@
                         $("#AlertLoginFailed").css("display","none");
                         $("#AlertLoginSuccess").css("display","block");
                         setInterval(function(){
-                        	window.location = baseurl + '/home/';
+                        	window.location = baseurl + '/management/';
                         },2000);
                     } else {
                         $("#AlertLoginSuccess").css("display","none");

@@ -3,6 +3,12 @@
 
 		var baseurl = "<?= $baseurl ?>";
 
+		function loadContent(){
+			$(".DataInHere").load(baseurl + "/management/content/manageAdmin/manageAdminShow.php");
+		}
+
+		loadContent();
+
 		$("#BtnTambahAdmin").on("click",function(){
 			$("#ModalTambahAdmin").modal("show");
 		});
@@ -23,6 +29,8 @@
                 	} else if ( result == "2" ) {
                 		swal("Gagal!", "Terjadi Kesalahan pada Server", "error");
                 	}
+                	$("#FormTambahAdmin").trigger("reset");
+					loadContent();
 				}
 			});
 		});

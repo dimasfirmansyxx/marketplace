@@ -1054,9 +1054,8 @@ class AllFunction{
 	public function addAdmin($data)
 	{
 		global $myGlobal;
-		return $data;
 		$id = $myGlobal->getNewId("tbluser");
-		$nama = $myGlobal->filterWord($data['name']);
+		$nama = $myGlobal->filterWord($data['nama']);
 		$email = $myGlobal->filterWord($data['email']);
 		$username = $myGlobal->filterWord($data['username']);
 		$password = $myGlobal->filterWord($data['password']);
@@ -1081,6 +1080,45 @@ class AllFunction{
 				}
 			}
 		}
+
+		return $result;
+	}
+
+	public function getAdmin($key= 0, $value = 0)
+	{
+		global $myGlobal;
+		if ( $key == 0 ) {
+			$query = "SELECT * FROM tbladmin";
+			$result = $myGlobal->query($query);
+		} else {
+			$query = "SELECT * FROM tbladmin WHERE $key = $value";
+			$result = $myGlobal->getData($query);
+		}
+
+		return $result;
+	}
+
+	public function adminLogin($data)
+	{
+		global $myGlobal;
+		$username = $myGlobal->filterWord($data['username']);
+		$password = $myGlobal->filterWord($data['password']);
+
+		$queryCheck = "SELECT * FROM tbladmin WHERE username = '$username'";
+		if ( $myGlobal->checkAvailability($queryCheck) ) {
+			$data = $myGlobal->getData($queryCheck);
+			if ( password_verify($password,$data['password']) ) {
+				$myGlobal->setSession("adminSess",true);
+				$myGlobal->setSession("adminInfo",$data);
+				$result = "0";
+			} else {
+				$result = "Password didn't match";
+			}
+		} else {
+			$result = "Username didn't exist";
+		}
+
+		return $result;
 	}
 
 }
